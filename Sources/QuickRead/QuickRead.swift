@@ -110,11 +110,69 @@ public extension View {
             .modifier(GeometryModifier(size: to))
     }
     
+    /// Reads the size of the modified view to a given ``CGSize`` value.
+    /// This value is updated any time the size properties of its geometry
+    /// are altered.
+    ///
+    /// In the example below, the size of the ``Text`` view, including
+    /// spacing added by the ``.padding()`` modifier, is read into
+    /// the "textViewSize" ``@State`` object.
+    ///
+    ///     @State
+    ///     private var textViewSize = CGSize()
+    ///     
+    ///     VStack {
+    ///         Text("Hello, World!")
+    ///             .padding()
+    ///             .readSize(to: $textViewSize)
+    ///     }
+    ///
+    /// When reading this value to set the size of another View, 
+    /// it may be a good idea to initialize ``CGSize`` with reasonable default values.
+    /// This modifier first reads the value when the modified view first appears,
+    /// and continues to update the value whenever the size properties of the modified
+    /// view's geometry are changed. Be mindful of your view's lifecycle when using
+    /// the value of this modifier to avoid endless loops.
+    ///
+    /// - Parameters:
+    ///    - to: A ``Binding<CGSize>`` value to store the size of the view.
+    ///
+    /// - Returns: A view which reads its current size and updates this value through
+    /// a two-way ``CGSize`` binding.
     func readFrame(to: Binding<CGRect>, in: CoordinateSpace) -> some View {
         self
             .modifier(GeometryModifier(frame: to, coordinateSpace: `in`))
     }
     
+    /// Reads the size of the modified view to a given ``CGSize`` value.
+    /// This value is updated any time the size properties of its geometry
+    /// are altered.
+    ///
+    /// In the example below, the size of the ``Text`` view, including
+    /// spacing added by the ``.padding()`` modifier, is read into
+    /// the "textViewSize" ``@State`` object.
+    ///
+    ///     @State
+    ///     private var textViewSize = CGSize()
+    ///     
+    ///     VStack {
+    ///         Text("Hello, World!")
+    ///             .padding()
+    ///             .readSize(to: $textViewSize)
+    ///     }
+    ///
+    /// When reading this value to set the size of another View, 
+    /// it may be a good idea to initialize ``CGSize`` with reasonable default values.
+    /// This modifier first reads the value when the modified view first appears,
+    /// and continues to update the value whenever the size properties of the modified
+    /// view's geometry are changed. Be mindful of your view's lifecycle when using
+    /// the value of this modifier to avoid endless loops.
+    ///
+    /// - Parameters:
+    ///    - to: A ``Binding<CGSize>`` value to store the size of the view.
+    ///
+    /// - Returns: A view which reads its current size and updates this value through
+    /// a two-way ``CGSize`` binding.
     func readInsets(to: Binding<EdgeInsets>) -> some View {
         self
             .modifier(GeometryModifier(insets: to))
