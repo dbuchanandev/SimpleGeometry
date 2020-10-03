@@ -78,6 +78,10 @@ fileprivate struct GeometryModifier: ViewModifier {
                         .preference(key: OriginXPreferenceKey.self, value: $0.frame(in: coordinateSpace).minX)
                         .preference(key: OriginYPreferenceKey.self, value: $0.frame(in: coordinateSpace).minY)
                         .preference(key: EdgeInsetsPreferenceKey.self, value: $0.safeAreaInsets)
+                        .onChange(of: $0, perform: { value in
+                            x = value.frame(in: coordinateSpace).origin.x
+                            y = value.frame(in: coordinateSpace).origin.y
+                        })
                 }
             )
             .onPreferenceChange(WidthPreferenceKey.self) { value in
@@ -103,6 +107,17 @@ fileprivate struct GeometryModifier: ViewModifier {
 //                    y = value
 //                }
 //            })
+    }
+}
+
+@available(iOS 13.0, macOS 10.5, macCatalyst 13.0, tvOS 13.0, watchOS 6.0, *)
+extension GeometryProxy: Equatable {
+    @available(iOS 13.0, macOS 10.5, macCatalyst 13.0, tvOS 13.0, watchOS 6.0, *)
+    public static func == (lhs: GeometryProxy, rhs: GeometryProxy) -> Bool {
+        return
+            lhs.safeAreaInsets == rhs.safeAreaInsets &&
+            lhs.size == rhs.size &&
+            lhs.frame(in: .global) == lhs.frame(in: .global)
     }
 }
 
