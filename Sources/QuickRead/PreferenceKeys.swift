@@ -49,36 +49,6 @@ struct OriginYPreferenceKey: PreferenceKey {
     }
 }
 
-@available(iOS 14.0, macOS 11.0, macCatalyst 14.0, tvOS 14.0, watchOS 7.0, *)
-struct FrameHeightPreferenceKey: PreferenceKey {
-    static let defaultValue: CGFloat = 0
-    
-    static func reduce(value: inout CGFloat,
-                       nextValue: () -> CGFloat) {
-        value = nextValue()
-    }
-}
-
-@available(iOS 14.0, macOS 11.0, macCatalyst 14.0, tvOS 14.0, watchOS 7.0, *)
-struct FrameWidthPositionPreferenceKey: PreferenceKey {
-    static let defaultValue: CGFloat = 0
-    
-    static func reduce(value: inout CGFloat,
-                       nextValue: () -> CGFloat) {
-        value = nextValue()
-    }
-}
-
-@available(iOS 14.0, macOS 11.0, macCatalyst 14.0, tvOS 14.0, watchOS 7.0, *)
-struct CoordinateSpacePreferenceKey: PreferenceKey {
-    static let defaultValue: CoordinateSpace = .local
-    
-    static func reduce(value: inout CoordinateSpace,
-                       nextValue: () -> CoordinateSpace) {
-        value = nextValue()
-    }
-}
-
 // MARK: - Insets
 @available(iOS 14.0, macOS 11.0, macCatalyst 14.0, tvOS 14.0, watchOS 7.0, *)
 struct EdgeInsetsPreferenceKey: PreferenceKey {

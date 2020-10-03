@@ -35,6 +35,9 @@ fileprivate struct GeometryModifier: ViewModifier {
                         .allowsHitTesting(false)
                         .preference(key: HeightPreferenceKey.self, value: $0.size.height)
                         .preference(key: WidthPreferenceKey.self, value: $0.size.width)
+                        .preference(key: OriginXPreferenceKey.self, value: $0.frame(in: coordinateSpace).origin.x)
+                        .preference(key: OriginYPreferenceKey.self, value: $0.frame(in: coordinateSpace).origin.y)
+                        .preference(key: EdgeInsetsPreferenceKey.self, value: $0.safeAreaInsets)
                 }
             )
             .onPreferenceChange(HeightPreferenceKey.self) { value in
@@ -51,6 +54,16 @@ fileprivate struct GeometryModifier: ViewModifier {
                     size.width = min(size.width, value)
                 }
             }
+            .onPreferenceChange(OriginXPreferenceKey.self, perform: { value in
+                if value > frame.origin.x {
+                    frame.origin.x = max(frame.origin.x, value)
+                } else {
+                    frame.origin.x = min(frame.origin.x, value)
+                }
+            })
+            .onPreferenceChange(EdgeInsetsPreferenceKey.self, perform: { value in
+                insets = value
+            })
     }
 }
 
