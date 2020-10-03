@@ -1,25 +1,5 @@
-#if canImport(DeveloperToolsSupport)
 import SwiftUI
 import DeveloperToolsSupport
-
-@available(iOS 14.0, macOS 11.0, macCatalyst 14.0, tvOS 14.0, watchOS 7.0, *)
-private struct HeightPreferenceKey: PreferenceKey {
-    static let defaultValue: CGFloat = 0
-    
-    static func reduce(value: inout CGFloat,
-                       nextValue: () -> CGFloat) {
-        value = nextValue()
-    }
-}
-
-private struct WidthPreferenceKey: PreferenceKey {
-    static let defaultValue: CGFloat = 0
-    
-    static func reduce(value: inout CGFloat,
-                       nextValue: () -> CGFloat) {
-        value = nextValue()
-    }
-}
 
 @available(iOS 14.0, macOS 11.0, macCatalyst 14.0, tvOS 14.0, watchOS 7.0, *)
 fileprivate struct GeometryModifier: ViewModifier {
@@ -65,7 +45,7 @@ fileprivate struct GeometryModifier: ViewModifier {
                 }
             }
             .onPreferenceChange(WidthPreferenceKey.self) { value in
-                if value > size.height {
+                if value > size.width {
                     size.width = max(size.width, value)
                 } else {
                     size.width = min(size.width, value)
@@ -101,7 +81,7 @@ public extension View {
     /// the value of this modifier to avoid endless loops.
     ///
     /// - Parameters:
-    ///    - to: A ``Binding<CGSize>`` value to store the size of the view.
+    ///    - to: A bindable ``CGSize`` value to hold the size of the view.
     ///
     /// - Returns: A view which reads its current size and updates this value through
     /// a two-way ``CGSize`` binding.
@@ -178,27 +158,3 @@ public extension View {
             .modifier(GeometryModifier(insets: to))
     }
 }
-
-@available(iOS 14.0, macOS 11.0, macCatalyst 14.0, tvOS 14.0, watchOS 7.0, *)
-struct LibraryModifierContent: LibraryContentProvider {
-    @Binding
-    var size: CGSize
-    
-    @Binding
-    var frame: CGRect
-    
-    let coordinateSpace: CoordinateSpace
-    
-    @Binding
-    var insets: EdgeInsets
-    
-    @LibraryContentBuilder
-    func modifiers(base: AnyView) -> [LibraryItem] {
-        [
-            LibraryItem(base.readSize(to: $size), visible: true, title: "Read Size", category: .layout),
-            LibraryItem(base.readFrame(to: $frame, in: coordinateSpace), visible: true, title: "Read Frame", category: .layout),
-            LibraryItem(base.readInsets(to: $insets), visible: true, title: "Read Insets", category: .layout)
-        ]
-    }
-}
-#endif
