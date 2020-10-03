@@ -9,16 +9,6 @@ import SwiftUI
 
 // MARK: - Size
 @available(iOS 14.0, macOS 11.0, macCatalyst 14.0, tvOS 14.0, watchOS 7.0, *)
-struct HeightPreferenceKey: PreferenceKey {
-    static let defaultValue: CGFloat = 0
-    
-    static func reduce(value: inout CGFloat,
-                       nextValue: () -> CGFloat) {
-        value = nextValue()
-    }
-}
-
-@available(iOS 14.0, macOS 11.0, macCatalyst 14.0, tvOS 14.0, watchOS 7.0, *)
 struct WidthPreferenceKey: PreferenceKey {
     static let defaultValue: CGFloat = 0
     
@@ -28,7 +18,17 @@ struct WidthPreferenceKey: PreferenceKey {
     }
 }
 
-// MARK: - Frame
+@available(iOS 14.0, macOS 11.0, macCatalyst 14.0, tvOS 14.0, watchOS 7.0, *)
+struct HeightPreferenceKey: PreferenceKey {
+    static let defaultValue: CGFloat = 0
+    
+    static func reduce(value: inout CGFloat,
+                       nextValue: () -> CGFloat) {
+        value = nextValue()
+    }
+}
+
+// MARK: - Position
 @available(iOS 14.0, macOS 11.0, macCatalyst 14.0, tvOS 14.0, watchOS 7.0, *)
 struct OriginXPreferenceKey: PreferenceKey {
     static let defaultValue: CGFloat = 0

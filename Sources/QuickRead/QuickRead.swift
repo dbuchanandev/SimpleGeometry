@@ -4,10 +4,10 @@ import DeveloperToolsSupport
 @available(iOS 14.0, macOS 11.0, macCatalyst 14.0, tvOS 14.0, watchOS 7.0, *)
 fileprivate struct GeometryModifier: ViewModifier {
     @Binding
-    var height: CGFloat
+    var width: CGFloat
     
     @Binding
-    var width: CGFloat
+    var height: CGFloat
     
     @Binding
     var x: CGFloat
@@ -20,43 +20,51 @@ fileprivate struct GeometryModifier: ViewModifier {
     @Binding
     var edgeInsets: EdgeInsets
     
+    // MARK: - Size
     init(
-        _ height: Binding<CGFloat> = .constant(CGFloat(0)),
-        _ width: Binding<CGFloat> = .constant(CGFloat(0))
+        _ width: Binding<CGFloat> = .constant(CGFloat(0)),
+        _ height: Binding<CGFloat> = .constant(CGFloat(0))
     )
     {
-        _height = height
         _width = width
+        _height = height
         _x = .constant(CGFloat(0))
         _y = .constant(CGFloat(0))
-        self.coordinateSpace = .local
+        self.coordinateSpace = .global
         _edgeInsets = .constant(EdgeInsets())
     }
     
+    // MARK: - Position
     init(
         _ x: Binding<CGFloat> = .constant(CGFloat(0)),
         _ y: Binding<CGFloat> = .constant(CGFloat(0)),
-        _ coordinateSpace: CoordinateSpace = .local
+        _ coordinateSpace: CoordinateSpace = .global
     )
     {
-        _height = .constant(CGFloat(0))
         _width = .constant(CGFloat(0))
+        _height = .constant(CGFloat(0))
         _x = x
         _y = y
         self.coordinateSpace = coordinateSpace
         _edgeInsets = .constant(EdgeInsets())
     }
     
+    // MARK: - Insets
     init(
         _ insets: Binding<EdgeInsets> = .constant(EdgeInsets())
     )
     {
-        _height = .constant(CGFloat(0))
         _width = .constant(CGFloat(0))
+        _height = .constant(CGFloat(0))
         _x = .constant(CGFloat(0))
         _y = .constant(CGFloat(0))
-        self.coordinateSpace = .local
+        self.coordinateSpace = .global
         _edgeInsets = insets
+    }
+    
+    // Using delta check to limit number of updates
+    func delta(a: CGFloat, b: CGFloat) -> Bool {
+        return abs(a - b) > 0.001
     }
     
     func body(content: Content) -> some View {
@@ -65,48 +73,36 @@ fileprivate struct GeometryModifier: ViewModifier {
                 GeometryReader {
                     Color.clear
                         .allowsHitTesting(false)
-                        .preference(key: HeightPreferenceKey.self, value: $0.size.height)
                         .preference(key: WidthPreferenceKey.self, value: $0.size.width)
-                        .preference(key: OriginXPreferenceKey.self, value: $0.frame(in: coordinateSpace).origin.x)
-                        .preference(key: OriginYPreferenceKey.self, value: $0.frame(in: coordinateSpace).origin.y)
+                        .preference(key: HeightPreferenceKey.self, value: $0.size.height)
+                        .preference(key: OriginXPreferenceKey.self, value: $0.frame(in: coordinateSpace).minX)
+                        .preference(key: OriginYPreferenceKey.self, value: $0.frame(in: coordinateSpace).minY)
                         .preference(key: EdgeInsetsPreferenceKey.self, value: $0.safeAreaInsets)
                 }
             )
-            .onPreferenceChange(HeightPreferenceKey.self) { value in
-                if value > height {
-                    height = max(height, value)
-                }
-                if value < height {
-                    height = min(height, value)
-                }
-            }
             .onPreferenceChange(WidthPreferenceKey.self) { value in
-                if value > width {
-                    width = max(width, value)
-                } 
-                if value < width {
-                    width = min(width, value)
+                if delta(a: width, b: value) {
+                    width = value
                 }
             }
-            .onPreferenceChange(OriginXPreferenceKey.self, perform: { value in
-                if value > x {
-                    x = max(x, value)
-                } 
-                if value < x {
-                    x = min(x, value)
+            .onPreferenceChange(HeightPreferenceKey.self) { value in
+                if delta(a: height, b: value) {
+                    height = value
                 }
-            })
-            .onPreferenceChange(OriginYPreferenceKey.self, perform: { value in
-                if value > y {
-                    y = max(y, value)
-                } 
-                if value < y {
-                    y = min(y, value)
-                }
-            })
+            }
             .onPreferenceChange(EdgeInsetsPreferenceKey.self, perform: { value in
                 edgeInsets = value
             })
+//            .onPreferenceChange(OriginXPreferenceKey.self, perform: { value in
+//                if delta(a: x, b: value) {
+//                    x = value
+//                }
+//            })
+//            .onPreferenceChange(OriginYPreferenceKey.self, perform: { value in
+//                if delta(a: y, b: value) {
+//                    y = value
+//                }
+//            })
     }
 }
 
@@ -141,11 +137,11 @@ public extension View {
     ///
     /// - Returns: A view which reads its current size and updates this value through
     /// a two-way ``CGSize`` binding.
-    func readSize(height: Binding<CGFloat>, width: Binding<CGFloat>) -> some View {
+    func readSize(width: Binding<CGFloat>, height: Binding<CGFloat>) -> some View {
         self
-            .modifier(GeometryModifier(height, width))
+            .modifier(GeometryModifier(width, height))
     }
-    
+    /*
     /// Reads the size of the modified view to a given ``CGSize`` value.
     /// This value is updated any time the size properties of its geometry
     /// are altered.
@@ -179,6 +175,7 @@ public extension View {
         self
             .modifier(GeometryModifier(x, y, coordinateSpace))
     }
+    */
     
     /// Reads the size of the modified view to a given ``CGSize`` value.
     /// This value is updated any time the size properties of its geometry
