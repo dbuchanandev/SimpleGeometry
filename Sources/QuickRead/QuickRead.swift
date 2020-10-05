@@ -1,5 +1,4 @@
 import SwiftUI
-import DeveloperToolsSupport
 
 @available(iOS 14.0, macOS 11.0, macCatalyst 14.0, tvOS 14.0, watchOS 7.0, *)
 fileprivate struct GeometryModifier: ViewModifier {
@@ -78,41 +77,31 @@ fileprivate struct GeometryModifier: ViewModifier {
                         .preference(key: OriginXPreferenceKey.self, value: $0.frame(in: coordinateSpace).minX)
                         .preference(key: OriginYPreferenceKey.self, value: $0.frame(in: coordinateSpace).minY)
                         .preference(key: EdgeInsetsPreferenceKey.self, value: $0.safeAreaInsets)
-                        .onChange(of: $0, perform: { value in
-                            x = value.frame(in: coordinateSpace).origin.x
-                            y = value.frame(in: coordinateSpace).origin.y
-                        })
                 }
             )
             .onPreferenceChange(WidthPreferenceKey.self) { value in
-                if delta(a: width, b: value) {
-                    width = value
-                }
+                dispatch(width = value)
             }
             .onPreferenceChange(HeightPreferenceKey.self) { value in
-                if delta(a: height, b: value) {
-                    height = value
-                }
+                dispatch(height = value)
             }
             .onPreferenceChange(EdgeInsetsPreferenceKey.self, perform: { value in
-                edgeInsets = value
+                dispatch(edgeInsets = value)
             })
-//            .onPreferenceChange(OriginXPreferenceKey.self, perform: { value in
-//                if delta(a: x, b: value) {
-//                    x = value
-//                }
-//            })
-//            .onPreferenceChange(OriginYPreferenceKey.self, perform: { value in
-//                if delta(a: y, b: value) {
-//                    y = value
-//                }
-//            })
+    }
+    
+    func dispatch(_ action: ()) {
+        DispatchQueue(label: "preferences").async {
+            autoreleasepool {
+                action
+            }
+        }
     }
 }
 
-@available(iOS 13.0, macOS 10.5, macCatalyst 13.0, tvOS 13.0, watchOS 6.0, *)
+@available(iOS 13.0, macOS 10.15, macCatalyst 13.0, tvOS 13.0, watchOS 6.0, *)
 extension GeometryProxy: Equatable {
-    @available(iOS 13.0, macOS 10.5, macCatalyst 13.0, tvOS 13.0, watchOS 6.0, *)
+    @available(iOS 13.0, macOS 10.15, macCatalyst 13.0, tvOS 13.0, watchOS 6.0, *)
     public static func == (lhs: GeometryProxy, rhs: GeometryProxy) -> Bool {
         return
             lhs.safeAreaInsets == rhs.safeAreaInsets &&

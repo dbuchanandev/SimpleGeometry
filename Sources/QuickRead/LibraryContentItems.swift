@@ -4,7 +4,9 @@
 //
 //  Created by Donavon Buchanan on 10/2/20.
 //
+#if canImport(DeveloperToolsSupport)
 import SwiftUI
+import DeveloperToolsSupport
 
 @available(iOS 14.0, macOS 11.0, macCatalyst 14.0, tvOS 14.0, watchOS 7.0, *)
 public struct LibraryModifierContent: LibraryContentProvider {
@@ -31,3 +33,4 @@ public struct LibraryModifierContent: LibraryContentProvider {
         LibraryItem(base.readInsets(to: $edgeInsets), visible: true, title: "Read Insets", category: .layout)
     }
 }
+#endif
