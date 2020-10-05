@@ -27,9 +27,11 @@ public struct LibraryModifierContent: LibraryContentProvider {
     @Binding
     var edgeInsets: EdgeInsets
     
+    let shouldFillContainer: Bool = false
+    
     @LibraryContentBuilder
     public func modifiers(base: AnyView) -> [LibraryItem] {
-        LibraryItem(base.readSize(width: $width, height: $height), visible: true, title: "Read Size", category: .layout)
+        LibraryItem(base.readSize(toWidth: $width, toHeight: $height, fill: shouldFillContainer), visible: true, title: "Read Size", category: .layout)
         LibraryItem(base.readInsets(to: $edgeInsets), visible: true, title: "Read Insets", category: .layout)
     }
 }
