@@ -95,10 +95,7 @@ fileprivate struct GeometryModifier: ViewModifier {
     
     func dispatch(_ action: ()) {
         DispatchQueue(label: "preferences").async {
-            autoreleasepool {
-                debugPrint(#function + " - action dispatched")
-                action
-            }
+            action
         }
     }
 }
