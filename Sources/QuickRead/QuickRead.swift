@@ -8,17 +8,6 @@ fileprivate struct GeometryModifier: ViewModifier {
     @Binding
     var height: CGFloat
     
-//    @Binding
-//    var x: CGFloat
-    
-//    @Binding
-//    var y: CGFloat
-    
-//    let coordinateSpace: CoordinateSpace
-    
-//    @Binding
-//    var edgeInsets: EdgeInsets
-    
     let shouldFillContainer: Bool
     
     // MARK: - Size
@@ -31,41 +20,7 @@ fileprivate struct GeometryModifier: ViewModifier {
         _width = width
         _height = height
         self.shouldFillContainer = shouldFillContainer
-//        _x = .constant(CGFloat(0))
-//        _y = .constant(CGFloat(0))
-//        self.coordinateSpace = .global
-//        _edgeInsets = .constant(EdgeInsets())
     }
-    
-//    // MARK: - Position
-//    init(
-//        _ x: Binding<CGFloat> = .constant(CGFloat(0)),
-//        _ y: Binding<CGFloat> = .constant(CGFloat(0)),
-//        _ coordinateSpace: CoordinateSpace = .global
-//    )
-//    {
-//        _width = .constant(CGFloat(0))
-//        _height = .constant(CGFloat(0))
-//        _x = x
-//        _y = y
-//        self.coordinateSpace = coordinateSpace
-//        _edgeInsets = .constant(EdgeInsets())
-//        self.shouldFillContainer = true
-//    }
-    
-//    // MARK: - Insets
-//    init(
-//        _ insets: Binding<EdgeInsets> = .constant(EdgeInsets())
-//    )
-//    {
-//        _width = .constant(CGFloat(0))
-//        _height = .constant(CGFloat(0))
-//        _x = .constant(CGFloat(0))
-//        _y = .constant(CGFloat(0))
-//        self.coordinateSpace = .global
-//        _edgeInsets = insets
-//        self.shouldFillContainer = true
-//    }
     
     func body(content: Content) -> some View {
         
@@ -75,9 +30,6 @@ fileprivate struct GeometryModifier: ViewModifier {
                     Color.clear
                         .preference(key: WidthPreferenceKey.self, value: geometry.size.width)
                         .preference(key: HeightPreferenceKey.self, value: geometry.size.height)
-//                        .preference(key: OriginXPreferenceKey.self, value: geometry.frame(in: coordinateSpace).minX)
-//                        .preference(key: OriginYPreferenceKey.self, value: geometry.frame(in: coordinateSpace).minY)
-//                        .preference(key: EdgeInsetsPreferenceKey.self, value: geometry.safeAreaInsets)
                         .allowsHitTesting(false)
                 }
             )
@@ -88,9 +40,6 @@ fileprivate struct GeometryModifier: ViewModifier {
             .onPreferenceChange(HeightPreferenceKey.self) { value in
                 dispatch(height = value)
             }
-//            .onPreferenceChange(EdgeInsetsPreferenceKey.self, perform: { value in
-//                dispatch(edgeInsets = value)
-//            })
     }
     
     func dispatch(_ action: ()) {
@@ -100,119 +49,51 @@ fileprivate struct GeometryModifier: ViewModifier {
     }
 }
 
-//@available(iOS 13.0, macOS 10.15, macCatalyst 13.0, tvOS 13.0, watchOS 6.0, *)
-//extension GeometryProxy: Equatable {
-//    @available(iOS 13.0, macOS 10.15, macCatalyst 13.0, tvOS 13.0, watchOS 6.0, *)
-//    public static func == (lhs: GeometryProxy, rhs: GeometryProxy) -> Bool {
-//        return
-//            lhs.safeAreaInsets == rhs.safeAreaInsets &&
-//            lhs.size == rhs.size &&
-//            lhs.frame(in: .global) == lhs.frame(in: .global)
-//    }
-//}
-
 @available(iOS 14.0, macOS 11.0, macCatalyst 14.0, tvOS 14.0, watchOS 7.0, *)
 public extension View {
-    /// Reads the size of the modified view to a given ``CGSize`` value.
-    /// This value is updated any time the size properties of its geometry
+    /// Reads the size of the modified view into a pair of `CGFloat` objects.
+    /// This value is updated any time the size properties of the view's geometry
     /// are altered.
     ///
-    /// In the example below, the size of the ``Text`` view, including
-    /// spacing added by the ``.padding()`` modifier, is read into
-    /// the "textViewSize" ``@State`` object.
+    /// In the example below, the frame of the `Rectangle` view, including
+    /// is set based on the size of its parent View.
+    /// The `.readSize` modifier set on the `VStack` makes the VStack
+    /// fill the space available in its containing view and return the current width and
+    /// height to bound `CGFloat` state objects, `rectWidth` and `rectHeight`.
     ///
     ///     @State
-    ///     private var textViewSize = CGSize()
+    ///     private var rectWidth: CGFloat = 0
+    ///     
+    ///     @State
+    ///     private var rectHeight: CGFloat = 0
     ///     
     ///     VStack {
-    ///         Text("Hello, World!")
-    ///             .padding()
-    ///             .readSize(to: $textViewSize)
+    ///     // Create a rectangle that's half the height
+    ///     // and 1/3rd the width of the containing view
+    ///         Rectangle()
+    ///             .frame(
+    ///                 width: rectWidth * (1 / 3),
+    ///                 height: rectHeight * 0.5
+    ///             )
     ///     }
+    ///     .readSize(
+    ///         toWidth: $rectWidth,
+    ///         toHeight: $rectHeight,
+    ///         fillFrame: true
+    ///     )
     ///
-    /// When reading this value to set the size of another View, 
-    /// it may be a good idea to initialize ``CGSize`` with reasonable default values.
-    /// This modifier first reads the value when the modified view first appears,
-    /// and continues to update the value whenever the size properties of the modified
-    /// view's geometry are changed. Be mindful of your view's lifecycle when using
-    /// the value of this modifier to avoid endless loops.
+    /// If you find that the size being read always returns as 0, try setting `fillFrame:` to `true`
+    /// when using the `.readSize` modifier.
     ///
     /// - Parameters:
-    ///    - to: A bindable ``CGSize`` value to hold the size of the view.
+    ///    - toWidth: A bindable `CGFloat` value to hold the width of the view.
+    ///    - toHeight: A bindable `CGFloat` value to hold the height of the view.
+    ///    - fillFrame: A `Bool` constant to set the frame behavior of the modified view.
     ///
     /// - Returns: A view which reads its current size and updates this value through
-    /// a two-way ``CGSize`` binding.
+    /// a two-way `CGSize` binding.
     func readSize(toWidth: Binding<CGFloat>, toHeight: Binding<CGFloat>, fillFrame shouldFillContainer: Bool) -> some View {
         self
             .modifier(GeometryModifier(toWidth, toHeight, shouldFillContainer))
     }
-    /*
-     /// Reads the size of the modified view to a given ``CGSize`` value.
-     /// This value is updated any time the size properties of its geometry
-     /// are altered.
-     ///
-     /// In the example below, the size of the ``Text`` view, including
-     /// spacing added by the ``.padding()`` modifier, is read into
-     /// the "textViewSize" ``@State`` object.
-     ///
-     ///     @State
-     ///     private var textViewSize = CGSize()
-     ///     
-     ///     VStack {
-     ///         Text("Hello, World!")
-     ///             .padding()
-     ///             .readSize(to: $textViewSize)
-     ///     }
-     ///
-     /// When reading this value to set the size of another View, 
-     /// it may be a good idea to initialize ``CGSize`` with reasonable default values.
-     /// This modifier first reads the value when the modified view first appears,
-     /// and continues to update the value whenever the size properties of the modified
-     /// view's geometry are changed. Be mindful of your view's lifecycle when using
-     /// the value of this modifier to avoid endless loops.
-     ///
-     /// - Parameters:
-     ///    - to: A bindable ``CGSize`` value to hold the size of the view.
-     ///
-     /// - Returns: A view which reads its current size and updates this value through
-     /// a two-way ``CGSize`` binding.
-     func readPosition(x: Binding<CGFloat>, y: Binding<CGFloat>, coordinateSpace: CoordinateSpace) -> some View {
-     self
-     .modifier(GeometryModifier(x, y, coordinateSpace))
-     }
-     */
-    /*
-    /// Reads the size of the modified view to a given ``CGSize`` value.
-    /// This value is updated any time the size properties of its geometry
-    /// are altered.
-    ///
-    /// In the example below, the size of the ``Text`` view, including
-    /// spacing added by the ``.padding()`` modifier, is read into
-    /// the "textViewSize" ``@State`` object.
-    ///
-    ///     @State
-    ///     private var textViewSize = CGSize()
-    ///     
-    ///     VStack {
-    ///         Text("Hello, World!")
-    ///             .padding()
-    ///             .readSize(to: $textViewSize)
-    ///     }
-    ///
-    /// When reading this value to set the size of another View, 
-    /// it may be a good idea to initialize ``CGSize`` with reasonable default values.
-    /// This modifier first reads the value when the modified view first appears,
-    /// and continues to update the value whenever the size properties of the modified
-    /// view's geometry are changed. Be mindful of your view's lifecycle when using
-    /// the value of this modifier to avoid endless loops.
-    ///
-    /// - Parameters:
-    ///    - to: A ``Binding<CGSize>`` value to store the size of the view.
-    ///
-    /// - Returns: A view which reads its current size and updates this value through
-    /// a two-way ``CGSize`` binding.
-    func readInsets(to insets: Binding<EdgeInsets>) -> some View {
-        self
-            .modifier(GeometryModifier(insets))
-    }*/
 }

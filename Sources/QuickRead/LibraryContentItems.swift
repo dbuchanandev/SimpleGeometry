@@ -32,7 +32,6 @@ public struct LibraryModifierContent: LibraryContentProvider {
     @LibraryContentBuilder
     public func modifiers(base: AnyView) -> [LibraryItem] {
         LibraryItem(base.readSize(toWidth: $width, toHeight: $height, fillFrame: shouldFillContainer), visible: true, title: "Read Size", category: .layout)
-//        LibraryItem(base.readInsets(to: $edgeInsets), visible: true, title: "Read Insets", category: .layout)
     }
 }
 #endif
