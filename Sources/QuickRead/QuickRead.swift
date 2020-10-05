@@ -67,49 +67,36 @@ fileprivate struct GeometryModifier: ViewModifier {
         self.shouldFillContainer = false
     }
     
-    // Using delta check to limit number of updates
-    func delta(a: CGFloat, b: CGFloat) -> Bool {
-        return abs(a - b) > 0.001
-    }
-    
     func body(content: Content) -> some View {
-        var modifiedContent: some View {
-            content
-                .background(
-                    GeometryReader {
-                        Color.clear
-                            .allowsHitTesting(false)
-                            .preference(key: WidthPreferenceKey.self, value: $0.size.width)
-                            .preference(key: HeightPreferenceKey.self, value: $0.size.height)
-                            .preference(key: OriginXPreferenceKey.self, value: $0.frame(in: coordinateSpace).minX)
-                            .preference(key: OriginYPreferenceKey.self, value: $0.frame(in: coordinateSpace).minY)
-                            .preference(key: EdgeInsetsPreferenceKey.self, value: $0.safeAreaInsets)
-                    }
-                )
-                .onPreferenceChange(WidthPreferenceKey.self) { value in
-                    dispatch(width = value)
-                }
-                .onPreferenceChange(HeightPreferenceKey.self) { value in
-                    dispatch(height = value)
-                }
-                .onPreferenceChange(EdgeInsetsPreferenceKey.self, perform: { value in
-                    dispatch(edgeInsets = value)
-                })
-        }
         
-        return ZStack {
-            Color.clear
-                .edgesIgnoringSafeArea(shouldFillContainer ? .all : .init())
-                .allowsHitTesting(false)
-            
-            modifiedContent
-        }
-        
+        content
+            .background(
+                GeometryReader { geometry in
+                    Color.clear
+                        .preference(key: WidthPreferenceKey.self, value: geometry.size.width)
+                        .preference(key: HeightPreferenceKey.self, value: geometry.size.height)
+                        .preference(key: OriginXPreferenceKey.self, value: geometry.frame(in: coordinateSpace).minX)
+                        .preference(key: OriginYPreferenceKey.self, value: geometry.frame(in: coordinateSpace).minY)
+                        .preference(key: EdgeInsetsPreferenceKey.self, value: geometry.safeAreaInsets)
+                        .allowsHitTesting(false)
+                }
+            )
+            .frame(minWidth: 0, idealWidth: width, maxWidth: shouldFillContainer ? .infinity : width, minHeight: 0, idealHeight: height, maxHeight: shouldFillContainer ? .infinity : height)
+            .onPreferenceChange(WidthPreferenceKey.self) { value in
+                dispatch(width = value)
+            }
+            .onPreferenceChange(HeightPreferenceKey.self) { value in
+                dispatch(height = value)
+            }
+            .onPreferenceChange(EdgeInsetsPreferenceKey.self, perform: { value in
+                dispatch(edgeInsets = value)
+            })
     }
     
     func dispatch(_ action: ()) {
         DispatchQueue(label: "preferences").async {
             autoreleasepool {
+                debugPrint(#function + " - action dispatched")
                 action
             }
         }
@@ -158,7 +145,7 @@ public extension View {
     ///
     /// - Returns: A view which reads its current size and updates this value through
     /// a two-way ``CGSize`` binding.
-    func readSize(toWidth: Binding<CGFloat>, toHeight: Binding<CGFloat>, fill shouldFillContainer: Bool) -> some View {
+    func readSize(toWidth: Binding<CGFloat>, toHeight: Binding<CGFloat>, fillFrame shouldFillContainer: Bool) -> some View {
         self
             .modifier(GeometryModifier(toWidth, toHeight, shouldFillContainer))
     }
