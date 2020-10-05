@@ -8,16 +8,16 @@ fileprivate struct GeometryModifier: ViewModifier {
     @Binding
     var height: CGFloat
     
-    @Binding
-    var x: CGFloat
+//    @Binding
+//    var x: CGFloat
     
-    @Binding
-    var y: CGFloat
+//    @Binding
+//    var y: CGFloat
     
-    let coordinateSpace: CoordinateSpace
+//    let coordinateSpace: CoordinateSpace
     
-    @Binding
-    var edgeInsets: EdgeInsets
+//    @Binding
+//    var edgeInsets: EdgeInsets
     
     let shouldFillContainer: Bool
     
@@ -30,42 +30,42 @@ fileprivate struct GeometryModifier: ViewModifier {
     {
         _width = width
         _height = height
-        _x = .constant(CGFloat(0))
-        _y = .constant(CGFloat(0))
-        self.coordinateSpace = .global
-        _edgeInsets = .constant(EdgeInsets())
         self.shouldFillContainer = shouldFillContainer
+//        _x = .constant(CGFloat(0))
+//        _y = .constant(CGFloat(0))
+//        self.coordinateSpace = .global
+//        _edgeInsets = .constant(EdgeInsets())
     }
     
-    // MARK: - Position
-    init(
-        _ x: Binding<CGFloat> = .constant(CGFloat(0)),
-        _ y: Binding<CGFloat> = .constant(CGFloat(0)),
-        _ coordinateSpace: CoordinateSpace = .global
-    )
-    {
-        _width = .constant(CGFloat(0))
-        _height = .constant(CGFloat(0))
-        _x = x
-        _y = y
-        self.coordinateSpace = coordinateSpace
-        _edgeInsets = .constant(EdgeInsets())
-        self.shouldFillContainer = false
-    }
+//    // MARK: - Position
+//    init(
+//        _ x: Binding<CGFloat> = .constant(CGFloat(0)),
+//        _ y: Binding<CGFloat> = .constant(CGFloat(0)),
+//        _ coordinateSpace: CoordinateSpace = .global
+//    )
+//    {
+//        _width = .constant(CGFloat(0))
+//        _height = .constant(CGFloat(0))
+//        _x = x
+//        _y = y
+//        self.coordinateSpace = coordinateSpace
+//        _edgeInsets = .constant(EdgeInsets())
+//        self.shouldFillContainer = true
+//    }
     
-    // MARK: - Insets
-    init(
-        _ insets: Binding<EdgeInsets> = .constant(EdgeInsets())
-    )
-    {
-        _width = .constant(CGFloat(0))
-        _height = .constant(CGFloat(0))
-        _x = .constant(CGFloat(0))
-        _y = .constant(CGFloat(0))
-        self.coordinateSpace = .global
-        _edgeInsets = insets
-        self.shouldFillContainer = false
-    }
+//    // MARK: - Insets
+//    init(
+//        _ insets: Binding<EdgeInsets> = .constant(EdgeInsets())
+//    )
+//    {
+//        _width = .constant(CGFloat(0))
+//        _height = .constant(CGFloat(0))
+//        _x = .constant(CGFloat(0))
+//        _y = .constant(CGFloat(0))
+//        self.coordinateSpace = .global
+//        _edgeInsets = insets
+//        self.shouldFillContainer = true
+//    }
     
     func body(content: Content) -> some View {
         
@@ -75,9 +75,9 @@ fileprivate struct GeometryModifier: ViewModifier {
                     Color.clear
                         .preference(key: WidthPreferenceKey.self, value: geometry.size.width)
                         .preference(key: HeightPreferenceKey.self, value: geometry.size.height)
-                        .preference(key: OriginXPreferenceKey.self, value: geometry.frame(in: coordinateSpace).minX)
-                        .preference(key: OriginYPreferenceKey.self, value: geometry.frame(in: coordinateSpace).minY)
-                        .preference(key: EdgeInsetsPreferenceKey.self, value: geometry.safeAreaInsets)
+//                        .preference(key: OriginXPreferenceKey.self, value: geometry.frame(in: coordinateSpace).minX)
+//                        .preference(key: OriginYPreferenceKey.self, value: geometry.frame(in: coordinateSpace).minY)
+//                        .preference(key: EdgeInsetsPreferenceKey.self, value: geometry.safeAreaInsets)
                         .allowsHitTesting(false)
                 }
             )
@@ -88,9 +88,9 @@ fileprivate struct GeometryModifier: ViewModifier {
             .onPreferenceChange(HeightPreferenceKey.self) { value in
                 dispatch(height = value)
             }
-            .onPreferenceChange(EdgeInsetsPreferenceKey.self, perform: { value in
-                dispatch(edgeInsets = value)
-            })
+//            .onPreferenceChange(EdgeInsetsPreferenceKey.self, perform: { value in
+//                dispatch(edgeInsets = value)
+//            })
     }
     
     func dispatch(_ action: ()) {
@@ -100,16 +100,16 @@ fileprivate struct GeometryModifier: ViewModifier {
     }
 }
 
-@available(iOS 13.0, macOS 10.15, macCatalyst 13.0, tvOS 13.0, watchOS 6.0, *)
-extension GeometryProxy: Equatable {
-    @available(iOS 13.0, macOS 10.15, macCatalyst 13.0, tvOS 13.0, watchOS 6.0, *)
-    public static func == (lhs: GeometryProxy, rhs: GeometryProxy) -> Bool {
-        return
-            lhs.safeAreaInsets == rhs.safeAreaInsets &&
-            lhs.size == rhs.size &&
-            lhs.frame(in: .global) == lhs.frame(in: .global)
-    }
-}
+//@available(iOS 13.0, macOS 10.15, macCatalyst 13.0, tvOS 13.0, watchOS 6.0, *)
+//extension GeometryProxy: Equatable {
+//    @available(iOS 13.0, macOS 10.15, macCatalyst 13.0, tvOS 13.0, watchOS 6.0, *)
+//    public static func == (lhs: GeometryProxy, rhs: GeometryProxy) -> Bool {
+//        return
+//            lhs.safeAreaInsets == rhs.safeAreaInsets &&
+//            lhs.size == rhs.size &&
+//            lhs.frame(in: .global) == lhs.frame(in: .global)
+//    }
+//}
 
 @available(iOS 14.0, macOS 11.0, macCatalyst 14.0, tvOS 14.0, watchOS 7.0, *)
 public extension View {
@@ -181,7 +181,7 @@ public extension View {
      .modifier(GeometryModifier(x, y, coordinateSpace))
      }
      */
-    
+    /*
     /// Reads the size of the modified view to a given ``CGSize`` value.
     /// This value is updated any time the size properties of its geometry
     /// are altered.
@@ -214,5 +214,5 @@ public extension View {
     func readInsets(to insets: Binding<EdgeInsets>) -> some View {
         self
             .modifier(GeometryModifier(insets))
-    }
+    }*/
 }
