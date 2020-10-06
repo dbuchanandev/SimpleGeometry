@@ -34,6 +34,10 @@ fileprivate struct GeometryModifier: ViewModifier {
                             key: FrameRectPreferenceKey.self, 
                             value: geometry.frame(in: coordinateSpace)
                         )
+                        //This placement matters a lot
+                        .onPreferenceChange(FrameRectPreferenceKey.self) { value in
+                            dispatch(frameRect = value)
+                        }
                         .allowsHitTesting(false)
                 }
             )
@@ -43,9 +47,6 @@ fileprivate struct GeometryModifier: ViewModifier {
                     frameRect: frameRect
                 )
             )
-            .onPreferenceChange(FrameRectPreferenceKey.self) { value in
-                dispatch(frameRect = value)
-            }
     }
     
     func dispatch(_ action: ()) {
