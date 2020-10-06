@@ -21,7 +21,7 @@ public struct LibraryModifierContent: LibraryContentProvider {
     
     @LibraryContentBuilder
     public func modifiers(base: AnyView) -> [LibraryItem] {
-        LibraryItem(base.readFrameRect(to: $frameRect, in: coordinateSpace, frameBehavior: frameBehavior), visible: true, title: "Read Frame", category: .layout)
+        LibraryItem(base.readFrameRect(to: $frameRect, in: coordinateSpace, frameBehavior: frameBehavior), visible: true, title: "Read Frame Rect", category: .layout)
     }
 }
 #endif
