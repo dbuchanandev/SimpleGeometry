@@ -1,7 +1,7 @@
 import XCTest
 
-import QuickReadTests
+import SimpleGeometryTests
 
 var tests = [XCTestCaseEntry]()
-tests += QuickReadTests.allTests()
+tests += SimpleGeometryTests.allTests()
 XCTMain(tests)
