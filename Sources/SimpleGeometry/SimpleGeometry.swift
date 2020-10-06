@@ -130,7 +130,11 @@ public extension View {
     //            .modifier(GeometryModifier(to, shouldFillFrame))
     //    }
     
-    func readFrameRect(to: Binding<CGRect>,in coordinateSpace: CoordinateSpace = .global, frameBehavior behavior: FrameBehavior = .default) -> some View {
+    func readFrameRect(
+        to: Binding<CGRect>, 
+        in coordinateSpace: CoordinateSpace = .global, 
+        frameBehavior behavior: FrameBehavior = .default
+    ) -> some View {
         self
             .modifier(GeometryModifier(to, coordinateSpace, behavior))
     }
