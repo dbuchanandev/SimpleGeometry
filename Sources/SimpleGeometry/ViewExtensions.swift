@@ -51,10 +51,6 @@ public extension View {
     ///
     /// - Returns: A view which reads its current size and updates this value through
     /// a two-way `CGSize` binding.
-    //    func readSize(to: Binding<CGSize>, fillFrame shouldFillFrame: Bool) -> some View {
-    //        self
-    //            .modifier(GeometryModifier(to, shouldFillFrame))
-    //    }
     
     func readFrame(
         identifiableRect: IdentifiableRect
@@ -105,10 +101,6 @@ public extension View {
     ///
     /// - Returns: A view which reads its current size and updates this value through
     /// a two-way `CGSize` binding.
-    //    func readSize(to: Binding<CGSize>, fillFrame shouldFillFrame: Bool) -> some View {
-    //        self
-    //            .modifier(GeometryModifier(to, shouldFillFrame))
-    //    }
     
     func readFrameToRect(
         to: Binding<CGRect>, 
