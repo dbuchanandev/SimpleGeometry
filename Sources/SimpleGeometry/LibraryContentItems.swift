@@ -11,27 +11,17 @@ import DeveloperToolsSupport
 @available(iOS 14.0, macOS 11.0, macCatalyst 14.0, tvOS 14.0, watchOS 7.0, *)
 public struct LibraryModifierContent: LibraryContentProvider {
     @Binding
-    var height: CGFloat
+    var size: CGSize
+    
+    let frameBehavior: FrameBehavior
     
     @Binding
-    var width: CGFloat
-    
-    @Binding
-    var x: CGFloat
-    
-    @Binding
-    var y: CGFloat
-    
+    var frameRect: CGRect
     let coordinateSpace: CoordinateSpace
-    
-    @Binding
-    var edgeInsets: EdgeInsets
-    
-    let shouldFillContainer: Bool = false
     
     @LibraryContentBuilder
     public func modifiers(base: AnyView) -> [LibraryItem] {
-        LibraryItem(base.readSize(toWidth: $width, toHeight: $height, fillFrame: shouldFillContainer), visible: true, title: "Read Size", category: .layout)
+        LibraryItem(base.readFrameRect(to: $frameRect, in: coordinateSpace, frameBehavior: frameBehavior), visible: true, title: "Read Frame", category: .layout)
     }
 }
 #endif

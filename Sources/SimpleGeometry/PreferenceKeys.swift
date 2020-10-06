@@ -9,53 +9,11 @@ import SwiftUI
 
 // MARK: - Size
 @available(iOS 14.0, macOS 11.0, macCatalyst 14.0, tvOS 14.0, watchOS 7.0, *)
-struct WidthPreferenceKey: PreferenceKey {
-    static let defaultValue: CGFloat = 0
+struct FrameRectPreferenceKey: PreferenceKey {
+    static let defaultValue: CGRect = .zero
     
-    static func reduce(value: inout CGFloat,
-                       nextValue: () -> CGFloat) {
+    static func reduce(value: inout CGRect,
+                       nextValue: () -> CGRect) {
         value = nextValue()
     }
 }
-
-@available(iOS 14.0, macOS 11.0, macCatalyst 14.0, tvOS 14.0, watchOS 7.0, *)
-struct HeightPreferenceKey: PreferenceKey {
-    static let defaultValue: CGFloat = 0
-    
-    static func reduce(value: inout CGFloat,
-                       nextValue: () -> CGFloat) {
-        value = nextValue()
-    }
-}
-
-// MARK: - Position
-//@available(iOS 14.0, macOS 11.0, macCatalyst 14.0, tvOS 14.0, watchOS 7.0, *)
-//struct OriginXPreferenceKey: PreferenceKey {
-//    static let defaultValue: CGFloat = 0
-//    
-//    static func reduce(value: inout CGFloat,
-//                       nextValue: () -> CGFloat) {
-//        value = nextValue()
-//    }
-//}
-
-//@available(iOS 14.0, macOS 11.0, macCatalyst 14.0, tvOS 14.0, watchOS 7.0, *)
-//struct OriginYPreferenceKey: PreferenceKey {
-//    static let defaultValue: CGFloat = 0
-//    
-//    static func reduce(value: inout CGFloat,
-//                       nextValue: () -> CGFloat) {
-//        value = nextValue()
-//    }
-//}
-
-// MARK: - Insets
-//@available(iOS 14.0, macOS 11.0, macCatalyst 14.0, tvOS 14.0, watchOS 7.0, *)
-//struct EdgeInsetsPreferenceKey: PreferenceKey {
-//    static let defaultValue: EdgeInsets = .init()
-//    
-//    static func reduce(value: inout EdgeInsets,
-//                       nextValue: () -> EdgeInsets) {
-//        value = nextValue()
-//    }
-//}

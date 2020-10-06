@@ -1,50 +1,83 @@
 import SwiftUI
 
+public enum FrameBehavior {
+    case `default`, fill
+}
+
 @available(iOS 14.0, macOS 11.0, macCatalyst 14.0, tvOS 14.0, watchOS 7.0, *)
 fileprivate struct GeometryModifier: ViewModifier {
-    @Binding
-    var width: CGFloat
+    let frameBehavior: FrameBehavior
     
     @Binding
-    var height: CGFloat
+    var frameRect: CGRect
+    let coordinateSpace: CoordinateSpace
     
-    let shouldFillContainer: Bool
-    
-    // MARK: - Size
+    //MARK: - Rect Init
     init(
-        _ width: Binding<CGFloat> = .constant(CGFloat(0)),
-        _ height: Binding<CGFloat> = .constant(CGFloat(0)),
-        _ shouldFillContainer: Bool = false
+        _ frameRect: Binding<CGRect>,
+        _ coordinateSpace: CoordinateSpace = .global,
+        _ frameBehavior: FrameBehavior = .default
     )
     {
-        _width = width
-        _height = height
-        self.shouldFillContainer = shouldFillContainer
+        _frameRect = frameRect
+        self.frameBehavior = frameBehavior
+        self.coordinateSpace = coordinateSpace
     }
     
     func body(content: Content) -> some View {
         
-        content
-            .background(
-                GeometryReader { geometry in
-                    Color.clear
-                        .preference(key: WidthPreferenceKey.self, value: geometry.size.width)
-                        .preference(key: HeightPreferenceKey.self, value: geometry.size.height)
-                        .allowsHitTesting(false)
+        ZStack {
+            content
+                .background(
+                    GeometryReader { geometry in
+                        Color.clear
+                            .preference(
+                                key: FrameRectPreferenceKey.self, 
+                                value: geometry.frame(in: coordinateSpace)
+                            )
+                            .allowsHitTesting(false)
+                    }
+                )
+                .modifier(
+                    FilledFrameModifier(
+                        frameBehavior: frameBehavior,
+                        frameRect: frameRect
+                    )
+                )
+                .onPreferenceChange(FrameRectPreferenceKey.self) { value in
+                    dispatch(frameRect = value)
                 }
-            )
-            .frame(minWidth: 0, idealWidth: width, maxWidth: shouldFillContainer ? .infinity : width, minHeight: 0, idealHeight: height, maxHeight: shouldFillContainer ? .infinity : height)
-            .onPreferenceChange(WidthPreferenceKey.self) { value in
-                dispatch(width = value)
-            }
-            .onPreferenceChange(HeightPreferenceKey.self) { value in
-                dispatch(height = value)
-            }
+        }
     }
     
     func dispatch(_ action: ()) {
-        DispatchQueue(label: "preferences").async {
+        DispatchQueue(label: "PreferenceKeysQueue").async {
             action
+        }
+    }
+}
+
+@available(iOS 14.0, macOS 11.0, macCatalyst 14.0, tvOS 14.0, watchOS 7.0, *)
+fileprivate struct FilledFrameModifier: ViewModifier {
+    
+    let frameBehavior: FrameBehavior
+    let frameRect: CGRect
+    
+    @ViewBuilder
+    func body(content: Content) -> some View {
+        switch frameBehavior {
+        case .fill:
+            content
+                .frame(
+                    minWidth: frameRect.width, 
+                    idealWidth: frameRect.width, 
+                    maxWidth: frameBehavior == .fill ? .infinity : frameRect.width, 
+                    minHeight: frameRect.height, 
+                    idealHeight: frameRect.height, 
+                    maxHeight: frameBehavior == .fill ? .infinity : frameRect.height
+                )
+        default:
+            content
         }
     }
 }
@@ -92,8 +125,13 @@ public extension View {
     ///
     /// - Returns: A view which reads its current size and updates this value through
     /// a two-way `CGSize` binding.
-    func readSize(toWidth: Binding<CGFloat>, toHeight: Binding<CGFloat>, fillFrame shouldFillContainer: Bool) -> some View {
+    //    func readSize(to: Binding<CGSize>, fillFrame shouldFillFrame: Bool) -> some View {
+    //        self
+    //            .modifier(GeometryModifier(to, shouldFillFrame))
+    //    }
+    
+    func readFrameRect(to: Binding<CGRect>,in coordinateSpace: CoordinateSpace = .global, frameBehavior behavior: FrameBehavior = .default) -> some View {
         self
-            .modifier(GeometryModifier(toWidth, toHeight, shouldFillContainer))
+            .modifier(GeometryModifier(to, coordinateSpace, behavior))
     }
 }
