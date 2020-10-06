@@ -7,17 +7,18 @@
 
 import SwiftUI
 
-@available(iOS 14.0, macOS 11.0, macCatalyst 14.0, tvOS 14.0, watchOS 7.0, *)
+#if !os(macOS)
+@available(iOS 14.0, macCatalyst 14.0, tvOS 14.0, watchOS 7.0, *)
 struct GeometryModifierWithID: ViewModifier {
-    @Binding
+    @StateObject
     var identifiableRect: IdentifiableRect
     
     //MARK: - Rect Init
     init(
-        _ identifiableRect: Binding<IdentifiableRect>
+        _ identifiableRect: IdentifiableRect
     )
     {
-        _identifiableRect = identifiableRect
+        _identifiableRect = StateObject(wrappedValue: identifiableRect)
     }
     
     func body(content: Content) -> some View {
@@ -38,3 +39,4 @@ struct GeometryModifierWithID: ViewModifier {
         }
     }
 }
+#endif

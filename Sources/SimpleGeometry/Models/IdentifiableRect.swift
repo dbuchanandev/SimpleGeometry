@@ -23,7 +23,7 @@ public class IdentifiableRect: ObservableObject, Identifiable, Equatable {
     @Published public var frameBehavior: FrameBehavior
     @Published public var coordinateSpace: CoordinateSpace
     
-    init(
+    public init(
         _ frameRect: CGRect = .zero,
         _ coordinateSpace: CoordinateSpace = .global,
         _ frameBehavior: FrameBehavior = .default,

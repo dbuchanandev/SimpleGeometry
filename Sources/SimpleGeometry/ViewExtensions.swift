@@ -63,6 +63,7 @@ public extension View {
             .modifier(GeometryModifier(to, coordinateSpace, behavior))
     }
     
+    #if !os(macOS)
     //MARK: - Identified
     /// Reads the size of the modified view into a pair of `CGFloat` objects.
     /// This value is updated any time the size properties of the view's geometry
@@ -110,9 +111,10 @@ public extension View {
     //    }
     
     func readFrameRect(
-        identifiableRect: Binding<IdentifiableRect>
+        identifiableRect: IdentifiableRect
     ) -> some View {
         self
             .modifier(GeometryModifierWithID(identifiableRect))
     }
+    #endif
 } 

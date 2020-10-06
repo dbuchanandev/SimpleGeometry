@@ -11,6 +11,8 @@ import DeveloperToolsSupport
 
 @available(iOS 14.0, macOS 11.0, macCatalyst 14.0, tvOS 14.0, watchOS 7.0, *)
 public struct LibraryModifierContent: LibraryContentProvider {
+    var identifiableRect = IdentifiableRect()
+    
     @Binding
     var size: CGSize
     
@@ -23,6 +25,9 @@ public struct LibraryModifierContent: LibraryContentProvider {
     @LibraryContentBuilder
     public func modifiers(base: AnyView) -> [LibraryItem] {
         LibraryItem(base.readFrameRect(to: $frameRect, in: coordinateSpace, frameBehavior: frameBehavior), visible: true, title: "Read Frame Rect", category: .layout)
+        #if !os(macOS)
+        LibraryItem(base.readFrameRect(identifiableRect: identifiableRect), visible: true, title: "Read Frame Rect", category: .layout)
+        #endif
     }
 }
 #endif
