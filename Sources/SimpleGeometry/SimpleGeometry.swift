@@ -26,28 +26,26 @@ fileprivate struct GeometryModifier: ViewModifier {
     
     func body(content: Content) -> some View {
         
-        ZStack {
-            content
-                .background(
-                    GeometryReader { geometry in
-                        Color.clear
-                            .preference(
-                                key: FrameRectPreferenceKey.self, 
-                                value: geometry.frame(in: coordinateSpace)
-                            )
-                            .allowsHitTesting(false)
-                    }
-                )
-                .modifier(
-                    FilledFrameModifier(
-                        frameBehavior: frameBehavior,
-                        frameRect: frameRect
-                    )
-                )
-                .onPreferenceChange(FrameRectPreferenceKey.self) { value in
-                    dispatch(frameRect = value)
+        content
+            .background(
+                GeometryReader { geometry in
+                    Color.clear
+                        .preference(
+                            key: FrameRectPreferenceKey.self, 
+                            value: geometry.frame(in: coordinateSpace)
+                        )
+                        .allowsHitTesting(false)
                 }
-        }
+            )
+            .modifier(
+                FilledFrameModifier(
+                    frameBehavior: frameBehavior,
+                    frameRect: frameRect
+                )
+            )
+            .onPreferenceChange(FrameRectPreferenceKey.self) { value in
+                dispatch(frameRect = value)
+            }
     }
     
     func dispatch(_ action: ()) {
