@@ -19,11 +19,11 @@ struct FilledFrameModifier: ViewModifier {
         case .fill:
             content
                 .frame(
-                    minWidth: frameRect.width, 
-                    idealWidth: frameRect.width, 
+                    minWidth: 0, 
+                    idealWidth: 0, 
                     maxWidth: frameBehavior == .fill ? .infinity : frameRect.width, 
-                    minHeight: frameRect.height, 
-                    idealHeight: frameRect.height, 
+                    minHeight: 0, 
+                    idealHeight: 0, 
                     maxHeight: frameBehavior == .fill ? .infinity : frameRect.height
                 )
         default:

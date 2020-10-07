@@ -34,13 +34,8 @@ struct GeometryModifier: ViewModifier {
     func body(content: Content) -> some View {
         
         content
-            .modifier(GeometryModifierBackground($frameRect, coordinateSpace))
-            .modifier(
-                FilledFrameModifier(
-                    frameBehavior: frameBehavior,
-                    frameRect: frameRect
-                )
-            )
+            .modifier(GeometryModifierBackground($frameRect, coordinateSpace, frameBehavior))
+            
     }
     
     func dispatch(_ action: ()) {

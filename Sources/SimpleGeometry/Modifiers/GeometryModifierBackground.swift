@@ -13,13 +13,16 @@ struct GeometryModifierBackground: ViewModifier {
     @Binding
     var frameRect: CGRect
     let coordinateSpace: CoordinateSpace
+    let frameBehavior: FrameBehavior
     
     init(
         _ frameRect: Binding<CGRect>,
-        _ coordinateSpace: CoordinateSpace
+        _ coordinateSpace: CoordinateSpace,
+        _ frameBehavior: FrameBehavior
     )
     {
         _frameRect = frameRect
+        self.frameBehavior = frameBehavior
         self.coordinateSpace = coordinateSpace
     }
     
@@ -32,12 +35,17 @@ struct GeometryModifierBackground: ViewModifier {
                             key: FrameRectPreferenceKey.self, 
                             value: geometry.frame(in: coordinateSpace)
                         )
-                        //This placement matters a lot
                         .onPreferenceChange(FrameRectPreferenceKey.self) { value in
                             dispatch(frameRect = value)
                         }
                         .allowsHitTesting(false)
                 }
+            )
+            .modifier(
+                FilledFrameModifier(
+                    frameBehavior: frameBehavior,
+                    frameRect: frameRect
+                )
             )
     }
     

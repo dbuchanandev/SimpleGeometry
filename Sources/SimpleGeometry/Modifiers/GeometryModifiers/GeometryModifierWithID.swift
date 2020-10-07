@@ -24,19 +24,8 @@ struct GeometryModifierWithID: ViewModifier {
     func body(content: Content) -> some View {
         
         content
-            .modifier(GeometryModifierBackground($identifiableRect.frameRect, identifiableRect.coordinateSpace))
-            .modifier(
-                FilledFrameModifier(
-                    frameBehavior: identifiableRect.frameBehavior,
-                    frameRect: identifiableRect.frameRect
-                )
-            )
-    }
-    
-    func dispatch(_ action: ()) {
-        DispatchQueue(label: "PreferenceKeysQueue").async {
-            action
-        }
+            .modifier(GeometryModifierBackground($identifiableRect.frameRect, identifiableRect.coordinateSpace, identifiableRect.frameBehavior))
+            
     }
 }
 #endif

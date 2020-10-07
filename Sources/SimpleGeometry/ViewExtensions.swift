@@ -11,20 +11,18 @@ import SwiftUI
 public extension View {
     #if !os(macOS)
     //MARK: - Read Frame
-    /// Reads the size of the modified view into a pair of `CGFloat` objects.
-    /// This value is updated any time the size properties of the view's geometry
+    /// Reads the size of the modified view into a `IndentifiableRect` object.
+    /// This object is updated any time the size properties of the view's geometry
     /// are altered.
     ///
-    /// In the example below, the frame of the `Rectangle` view, including
-    /// is set based on the size of its parent View.
-    /// The `.readSize` modifier set on the `VStack` makes the VStack
-    /// fill the space available in its containing view and return the current width and
-    /// height to bound `CGFloat` state objects, `rectWidth` and `rectHeight`.
+    /// In the example below, the`.readFrame` modifier reads the frame size 
+    /// and positions of the `VStack` containing the `Text` views is 
+    /// into the `idRect` object. These properties are then displayed by the `Text` views.
     ///
-    ///     // Create a State object of type CGRect for the modifier to use
-    ///     // This can be initialized to any valid size
+    ///     // Create an @StateObject of type IndentifiableRect for the modifier to use
+    ///     // Initializing with default values should be fine for most cases
     ///     @State
-    ///     private var frameRect: CGRect = .init(width: 50, height: 50)
+    ///     private var idRect = IndentifiableRect()
     ///     
     ///     VStack(alignment: .center, spacing: 30) {
     ///     // Create a rectangle that's half the height
@@ -53,7 +51,7 @@ public extension View {
     /// a two-way `CGSize` binding.
     
     func readFrame(
-        identifiableRect: IdentifiableRect
+        to identifiableRect: IdentifiableRect
     ) -> some View {
         self
             .modifier(GeometryModifierWithID(identifiableRect))
