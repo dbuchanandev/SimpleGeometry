@@ -318,7 +318,7 @@ self
 ```
 
 ### Example Project
-[SimpleGeometry-Demo - Coming Soon]()
+[SimpleGeometry-Demo](https://github.com/donavoncade/SimpleGeometry-Demo)
 
 ## Contact
 [Twitter: @dbuchanandev](https://twitter.com/dbuchanandev)
