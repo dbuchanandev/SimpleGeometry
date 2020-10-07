@@ -19,28 +19,64 @@ public extension View {
     /// and positions of the `VStack` containing the `Text` views is 
     /// into the `idRect` object. These properties are then displayed by the `Text` views.
     ///
-    ///     // Create an @StateObject of type IndentifiableRect for the modifier to use
-    ///     // Initializing with default values should be fine for most cases
-    ///     @State
-    ///     private var idRect = IndentifiableRect()
+    ///     /*
+    ///     Create a @StateObject of type IndentifiableRect to hold all the
+    ///     properties needed for the .readFrame modifier
+    ///     */
+    ///     @StateObject
+    ///     private var vStackRect = IdentifiableRect(frameBehavior: .fill)
     ///     
-    ///     VStack(alignment: .center, spacing: 30) {
-    ///     // Create a rectangle that's half the height
-    ///     // and 1/3rd the width of the containing view
-    ///         Rectangle()
-    ///             .frame(
-    ///                 width: rectWidth * (1 / 3),
-    ///                 height: rectHeight * 0.5
-    ///             )
+    ///     /*
+    ///      Similar to the above, create a @StateObject of type IndentifiableRect
+    ///      to hold all the properties needed for the .readFrame modifier, this
+    ///      time using the default initializer values.
+    ///      */
+    ///     @StateObject
+    ///     private var fullViewRect = IdentifiableRect()
+    ///     
+    ///     var body: some View {
+    ///         VStack(alignment: .leading, spacing: 20) {
+    ///             // X Axis
+    ///             VStack(alignment: .leading) {
+    ///                 Text("minX: \(vStackRect.frameRect.minX)")
+    ///                 Text("midX: \(vStackRect.frameRect.midX)")
+    ///                 Text("maxX: \(vStackRect.frameRect.maxX)")
+    ///             }
+    ///             
+    ///             // Y Axis
+    ///             VStack(alignment: .leading) {
+    ///                 Text("minY: \(vStackRect.frameRect.minY)")
+    ///                 Text("midY: \(vStackRect.frameRect.midY)")
+    ///                 Text("maxY: \(vStackRect.frameRect.maxY)")
+    ///             }
+    ///             
+    ///             // VStack Size
+    ///             VStack(alignment: .leading) {
+    ///                 Text("Width: \(vStackRect.frameRect.width)")
+    ///                 Text("Height: \(vStackRect.frameRect.height)")
+    ///             }
+    ///             
+    ///             // Full View Size
+    ///             VStack(alignment: .leading) {
+    ///                 Text("Full Width: \(fullViewRect.frameRect.width)")
+    ///                 Text("Full Height: \(fullViewRect.frameRect.height)")
+    ///             }
+    ///         }
+    ///         .font(.system(.body, design: .monospaced))
+    ///         // Read size for contents of the VStack, filling the view
+    ///         .readFrame(to: vStackRect)
+    ///         // Border for visual illustratrion
+    ///         .border(Color.red, width: 2)
+    ///         // Read the size of the previously filled view
+    ///         .readFrame(to: fullViewRect)
     ///     }
-    ///     .readSize(
-    ///         toWidth: $rectWidth,
-    ///         toHeight: $rectHeight,
-    ///         fillFrame: true
-    ///     )
     ///
-    /// If you find that the size being read always returns as 0, try setting `fillFrame:` to `true`
-    /// when using the `.readSize` modifier.
+    /// - Important:
+    /// A note on FrameBehavior:
+    /// Using a FrameBehavior value of `.fill` will still only read the size for the original contents
+    /// of the modified view while extending the frame to fill all available space.
+    /// If you wish to read the full size of this extended frame, use the this modifier a second time to
+    /// read the full size of the first.
     ///
     /// - Parameters:
     ///    - toWidth: A bindable `CGFloat` value to hold the width of the view.
