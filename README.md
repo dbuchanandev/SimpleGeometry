@@ -4,6 +4,7 @@
 SimpleGeometry provides a quick and easy way to get all the information provided by
 SwiftUI's Geometry Reader with a simple modifier and no impact on the size of your view
 by default.
+
 SimpleGeometry makes the geometric properties of any view easily accessible throughout
 your project.
 
