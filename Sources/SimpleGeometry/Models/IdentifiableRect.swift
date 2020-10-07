@@ -24,11 +24,11 @@ public class IdentifiableRect: ObservableObject, Identifiable, Equatable {
     /// - Parameters:
     ///   - frameRect: `CGRect` value where geometry properties are stored.
     ///   Defaults to a value of `.zero` if no value is supplied. In most cases, this default should be used.
-    ///   - coordinateSpace: Indicates the CoordinateSpace of the frame
-    ///   to return X and Y positional values relative to the view with `.local`, the
+    ///   - coordinateSpace: Indicates the CoordinateSpace of the frame,
+    ///   returning X and Y positional values relative to the view with `.local`, the
     ///   screen with `.global`, or a named area with `.named()`.
     ///   Defaults to a value of `.global` if no value is supplied.
-    ///   - frameBehavior: `FrameBehavior` enum case value to indicate
+    ///   - frameBehavior: A `FrameBehavior` enum case value to indicate
     ///   if the view returned from the modifier should retain the default sizing behavior
     ///   as if unmodified using `.default`, or grow to fill the available space using `.fill`.
     ///   Defaults to a value of `.default` if no value is supplied.
