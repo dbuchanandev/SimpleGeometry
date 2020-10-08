@@ -22,12 +22,18 @@ public struct LibraryModifierContent: LibraryContentProvider {
     var frameRect: CGRect
     let coordinateSpace: CoordinateSpace
     
-    @LibraryContentBuilder
+//    @LibraryContentBuilder
     public func modifiers(base: AnyView) -> [LibraryItem] {
+        var items: [LibraryItem] = []
         #if !os(macOS)
-        LibraryItem(base.readFrame(to: identifiableRect), visible: true, title: "Read Frame", category: .layout)
+        items.append(
+            LibraryItem(base.readFrame(to: identifiableRect), visible: true, title: "Read Frame", category: .layout)
+        )
         #endif
-        LibraryItem(base.readFrameToRect(to: $frameRect, in: coordinateSpace, frameBehavior: frameBehavior), visible: true, title: "Read Frame to CGRect", category: .layout)
+        items.append(
+            LibraryItem(base.readFrameToRect(to: $frameRect, in: coordinateSpace, frameBehavior: frameBehavior), visible: true, title: "Read Frame to CGRect", category: .layout)
+        )
+        return items
     }
 }
 #endif
