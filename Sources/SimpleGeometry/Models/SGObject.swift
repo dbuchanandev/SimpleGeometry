@@ -29,30 +29,74 @@ public class SGObject: ObservableObject, Identifiable, Equatable {
     ///   - id: Any `Hashable` value used to ensure this object will be unique and conform
     ///   to the `Identifiable` protocol. Defaults to a value of `UUID()` if no value is supplied.
     private init(
-        _ coordinateSpace: CoordinateSpace = .global,
+        _ alignment: Alignment? = nil,
         _ behavior: FrameBehavior = .default,
+        _ coordinateSpace: CoordinateSpace = .global,
         _ id: AnyHashable = UUID()
     ) {
+        self.alignment = alignment
         self.behavior = behavior
         self.coordinateSpace = coordinateSpace
         self.id = id
     }
 
-    public convenience init() {
-        self.init(.global, .default, UUID())
+    // With Alignment
+    public convenience init(
+        alignment: Alignment? = nil
+    ) {
+        self.init(
+            alignment
+        )
     }
 
     public convenience init(
         behavior: FrameBehavior
     ) {
-        self.init(.global, behavior, UUID())
+        self.init(
+            nil,
+            behavior,
+            .global,
+            UUID()
+        )
+    }
+
+    // With Alignment
+    public convenience init(
+        alignment: Alignment? = nil,
+        behavior: FrameBehavior
+    ) {
+        self.init(
+            alignment,
+            behavior,
+            .global,
+            UUID()
+        )
     }
 
     public convenience init(
         behavior: FrameBehavior,
         coordinateSpace: CoordinateSpace
     ) {
-        self.init(coordinateSpace, behavior, UUID())
+        self.init(
+            nil,
+            behavior,
+            coordinateSpace,
+            UUID()
+        )
+    }
+
+    // With Alignment
+    public convenience init(
+        alignment: Alignment? = nil,
+        behavior: FrameBehavior,
+        coordinateSpace: CoordinateSpace
+    ) {
+        self.init(
+            alignment,
+            behavior,
+            coordinateSpace,
+            UUID()
+        )
     }
 
     public convenience init(
@@ -60,16 +104,37 @@ public class SGObject: ObservableObject, Identifiable, Equatable {
         coordinateSpace: CoordinateSpace,
         id: AnyHashable
     ) {
-        self.init(coordinateSpace, behavior, id)
+        self.init(
+            nil,
+            behavior,
+            coordinateSpace,
+            id
+        )
+    }
+
+    // With Alignment
+    public convenience init(
+        alignment: Alignment? = nil,
+        behavior: FrameBehavior,
+        coordinateSpace: CoordinateSpace,
+        id: AnyHashable
+    ) {
+        self.init(
+            alignment,
+            behavior,
+            coordinateSpace,
+            id
+        )
     }
 
     // MARK: Public
 
     @Published public var id: AnyHashable
 
-    @Published public var rect: CGRect = .zero
+    @Published public var alignment: Alignment?
     @Published public var behavior: FrameBehavior
     @Published public var coordinateSpace: CoordinateSpace
+    @Published public var rect: CGRect = .zero
 
     public static func == (lhs: SGObject, rhs: SGObject) -> Bool {
         return lhs.id == rhs.id && lhs.rect == rhs.rect
