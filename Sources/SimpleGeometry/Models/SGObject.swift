@@ -29,7 +29,7 @@ public class SGObject: ObservableObject, Identifiable, Equatable {
     ///   - id: Any `Hashable` value used to ensure this object will be unique and conform
     ///   to the `Identifiable` protocol. Defaults to a value of `UUID()` if no value is supplied.
     private init(
-        _ alignment: Alignment? = nil,
+        _ alignment: Alignment? = .none,
         _ behavior: FrameBehavior = .default,
         _ coordinateSpace: CoordinateSpace = .global,
         _ id: AnyHashable = UUID()
@@ -41,7 +41,7 @@ public class SGObject: ObservableObject, Identifiable, Equatable {
     }
 
     public convenience init(
-        alignment: Alignment? = nil
+        alignment: Alignment? = .none
     ) {
         self.init(
             alignment
@@ -49,7 +49,7 @@ public class SGObject: ObservableObject, Identifiable, Equatable {
     }
 
     public convenience init(
-        alignment: Alignment? = nil,
+        alignment: Alignment? = .none,
         behavior: FrameBehavior
     ) {
         self.init(
@@ -61,7 +61,7 @@ public class SGObject: ObservableObject, Identifiable, Equatable {
     }
 
     public convenience init(
-        alignment: Alignment? = nil,
+        alignment: Alignment? = .none,
         behavior: FrameBehavior,
         coordinateSpace: CoordinateSpace
     ) {
@@ -74,7 +74,7 @@ public class SGObject: ObservableObject, Identifiable, Equatable {
     }
 
     public convenience init(
-        alignment: Alignment? = nil,
+        alignment: Alignment? = .none,
         behavior: FrameBehavior,
         coordinateSpace: CoordinateSpace,
         id: AnyHashable
