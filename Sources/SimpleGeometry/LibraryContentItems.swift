@@ -18,7 +18,7 @@
             #if !os(macOS)
                 items.append(
                     LibraryItem(
-                        base.readFrame(to: sgObject),
+                        base.readFrame(to: $sgObject),
                         visible: true,
                         title: "Read Frame",
                         category: .layout
@@ -41,8 +41,8 @@
         }
 
         // MARK: Internal
-
-        var sgObject = SGObject()
+        @Binding
+        var sgObject: SGObject
 
         @Binding
         var size: CGSize

@@ -58,14 +58,6 @@ public class SGObject: ObservableObject, Identifiable, Equatable {
     }
 
     public convenience init(
-        to: Binding<CGRect>,
-        behavior: FrameBehavior,
-        coordinateSpace: CoordinateSpace
-    ) {
-        self.init(to: to.wrappedValue, coordinateSpace, behavior, UUID())
-    }
-
-    public convenience init(
         behavior: FrameBehavior,
         coordinateSpace: CoordinateSpace,
         id: AnyHashable

@@ -90,10 +90,10 @@ extension View {
         /// the `frameRect` property of the `IdentifiableRect` object.
 
         public func readFrame(
-            to sgObject: SGObject
+            to sgObject: Binding<SGObject>
         ) -> some View {
             self
-                .modifier(SGModifier(sgObject))
+                .modifier(SGModifier(to: sgObject))
         }
     #endif
 
@@ -188,6 +188,6 @@ extension View {
         in coordinateSpace: CoordinateSpace = .global
     ) -> some View {
         self
-            .modifier(GeometryModifier(to: to, behavior, coordinateSpace))
+            .modifier(SGModifier(to: to, behavior, coordinateSpace))
     }
 }

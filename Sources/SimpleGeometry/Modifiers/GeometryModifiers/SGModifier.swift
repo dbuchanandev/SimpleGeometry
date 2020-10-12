@@ -7,44 +7,64 @@
 
 import SwiftUI
 
-    struct SGModifier: ViewModifier {
-        // MARK: Lifecycle
+public enum FrameBehavior {
+    case `default`, fill
+}
 
-        init(
-            _ sgObject: SGObject
-        ) {
-            self.sgObject = sgObject
-        }
-        
-        // MARK: Internal
-        var sgObject: SGObject
+struct SGModifier: ViewModifier {
+    // MARK: Lifecycle
 
-        func body(content: Content) -> some View {
-            content
-                .background(
-                    GeometryReader { geometry in
-                        Color.clear
-                            .preference(
-                                key: FrameRectPreferenceKey.self,
-                                value: geometry.frame(in: sgObject.coordinateSpace)
-                            )
-                            .onPreferenceChange(FrameRectPreferenceKey.self) { value in
-                                dispatch(sgObject.rect = value)
-                            }
-                            .allowsHitTesting(false)
-                    }
+    init(
+        to rect: Binding<CGRect>,
+        _ behavior: FrameBehavior = .default,
+        _ coordinateSpace: CoordinateSpace = .global
+    ) {
+        _rect = rect
+        self.behavior = behavior
+        self.coordinateSpace = coordinateSpace
+    }
+    
+    init(
+        to sgObject: Binding<SGObject>
+    ) {
+        _rect = sgObject.rect
+        behavior = sgObject.behavior.wrappedValue
+        coordinateSpace = sgObject.coordinateSpace.wrappedValue
+    }
+    
+    // MARK: Internal
+    @Binding
+    var rect: CGRect
+    
+    var behavior: FrameBehavior
+    var coordinateSpace: CoordinateSpace
+
+    func body(content: Content) -> some View {
+        content
+            .background(
+                GeometryReader { geometry in
+                    Color.clear
+                        .preference(
+                            key: FrameRectPreferenceKey.self,
+                            value: geometry.frame(in: coordinateSpace)
+                        )
+                        .onPreferenceChange(FrameRectPreferenceKey.self) { value in
+                            dispatch(rect = value)
+                        }
+                        .allowsHitTesting(false)
+                }
+            )
+            .modifier(
+                FilledFrameModifier(
+                    behavior: behavior,
+                    rect: rect
                 )
-                .modifier(
-                    FilledFrameModifier(
-                        behavior: sgObject.behavior,
-                        rect: sgObject.rect
-                    )
-                )
-        }
-        
-        func dispatch(_ action: ()) {
-            DispatchQueue(label: "PreferenceKeysQueue").async {
-                action
-            }
+            )
+    }
+    
+    func dispatch(_ action: ()) {
+        DispatchQueue(label: "PreferenceKeysQueue").async {
+            action
         }
     }
+}
