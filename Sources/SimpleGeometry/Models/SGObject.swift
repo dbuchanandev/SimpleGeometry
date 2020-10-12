@@ -29,12 +29,10 @@ public class SGObject: ObservableObject, Identifiable, Equatable {
     ///   - id: Any `Hashable` value used to ensure this object will be unique and conform
     ///   to the `Identifiable` protocol. Defaults to a value of `UUID()` if no value is supplied.
     private init(
-        to: CGRect = .zero,
         _ coordinateSpace: CoordinateSpace = .global,
         _ behavior: FrameBehavior = .default,
         _ id: AnyHashable = UUID()
     ) {
-        self.rect = to
         self.behavior = behavior
         self.coordinateSpace = coordinateSpace
         self.id = id
@@ -56,13 +54,6 @@ public class SGObject: ObservableObject, Identifiable, Equatable {
     ) {
         self.init(coordinateSpace, behavior, UUID())
     }
-    public convenience init(
-        to: CGRect,
-        behavior: FrameBehavior,
-        coordinateSpace: CoordinateSpace
-    ) {
-        self.init(to: to, coordinateSpace, behavior, UUID())
-    }
 
     public convenience init(
         behavior: FrameBehavior,
@@ -76,7 +67,7 @@ public class SGObject: ObservableObject, Identifiable, Equatable {
 
     @Published public var id: AnyHashable
 
-    @Published public var rect: CGRect
+    @Published public var rect: CGRect = .zero
     @Published public var behavior: FrameBehavior
     @Published public var coordinateSpace: CoordinateSpace
 
