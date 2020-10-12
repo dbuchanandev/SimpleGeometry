@@ -40,7 +40,6 @@ public class SGObject: ObservableObject, Identifiable, Equatable {
         self.id = id
     }
 
-    // With Alignment
     public convenience init(
         alignment: Alignment? = nil
     ) {
@@ -49,18 +48,6 @@ public class SGObject: ObservableObject, Identifiable, Equatable {
         )
     }
 
-//    public convenience init(
-//        behavior: FrameBehavior
-//    ) {
-//        self.init(
-//            nil,
-//            behavior,
-//            .global,
-//            UUID()
-//        )
-//    }
-
-    // With Alignment
     public convenience init(
         alignment: Alignment? = nil,
         behavior: FrameBehavior
@@ -74,20 +61,7 @@ public class SGObject: ObservableObject, Identifiable, Equatable {
     }
 
     public convenience init(
-        behavior: FrameBehavior,
-        coordinateSpace: CoordinateSpace
-    ) {
-        self.init(
-            nil,
-            behavior,
-            coordinateSpace,
-            UUID()
-        )
-    }
-
-    // With Alignment
-    public convenience init(
-        alignment: Alignment?,
+        alignment: Alignment? = nil,
         behavior: FrameBehavior,
         coordinateSpace: CoordinateSpace
     ) {
@@ -100,21 +74,7 @@ public class SGObject: ObservableObject, Identifiable, Equatable {
     }
 
     public convenience init(
-        behavior: FrameBehavior,
-        coordinateSpace: CoordinateSpace,
-        id: AnyHashable
-    ) {
-        self.init(
-            nil,
-            behavior,
-            coordinateSpace,
-            id
-        )
-    }
-
-    // With Alignment
-    public convenience init(
-        alignment: Alignment?,
+        alignment: Alignment? = nil,
         behavior: FrameBehavior,
         coordinateSpace: CoordinateSpace,
         id: AnyHashable
