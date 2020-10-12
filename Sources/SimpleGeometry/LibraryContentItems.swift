@@ -15,28 +15,16 @@
         //    @LibraryContentBuilder
         public func modifiers(base: AnyView) -> [LibraryItem] {
             var items: [LibraryItem] = []
-            #if !os(macOS)
-                items.append(
-                    LibraryItem(
-                        base.readFrame(to: sgObject),
-                        visible: true,
-                        title: "Read Frame",
-                        category: .layout
-                    )
-                )
-            #endif
+            
             items.append(
                 LibraryItem(
-                    base.readFrameToRect(
-                        to: $rect,
-                        behavior: behavior,
-                        in: coordinateSpace
-                    ),
+                    base.readFrame(to: sgObject),
                     visible: true,
-                    title: "Read Frame to CGRect",
+                    title: "Read Frame",
                     category: .layout
                 )
             )
+            
             return items
         }
 

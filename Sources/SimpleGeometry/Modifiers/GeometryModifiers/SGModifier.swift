@@ -13,16 +13,6 @@ public enum FrameBehavior {
 
 struct SGModifier: ViewModifier {
     // MARK: Lifecycle
-
-    init(
-        to rect: Binding<CGRect>,
-        _ behavior: FrameBehavior = .default,
-        _ coordinateSpace: CoordinateSpace = .global
-    ) {
-        let sgObject = SGObject(to: rect.wrappedValue, behavior: behavior, coordinateSpace: coordinateSpace)
-        _sgObject = StateObject(wrappedValue: sgObject)
-    }
-    
     init(
         to sgObject: SGObject
     ) {
