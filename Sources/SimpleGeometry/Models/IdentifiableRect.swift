@@ -71,7 +71,9 @@ public class IdentifiableRect: ObservableObject, Identifiable, Equatable {
 
     @Published public var id: AnyHashable
 
+    @available(*, deprecated, renamed: "rect")
     @Published public var frameRect: CGRect
+    @available(*, deprecated, renamed: "behavior")
     @Published public var frameBehavior: FrameBehavior
     @Published public var coordinateSpace: CoordinateSpace
 
