@@ -31,15 +31,5 @@
         // MARK: Internal
         @Binding
         var sgObject: SGObject
-
-        @Binding
-        var size: CGSize
-
-        let behavior: FrameBehavior
-
-        @Binding
-        var rect: CGRect
-
-        let coordinateSpace: CoordinateSpace
     }
 #endif
