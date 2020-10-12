@@ -24,7 +24,7 @@ struct FilledFrameModifier: ViewModifier {
                     minHeight: 0,
                     idealHeight: 0,
                     maxHeight: behavior == .fill ? .infinity : rect.height,
-                    alignment: alignment ?? .center
+                    alignment: alignment ?? .trailing
                 )
         default:
             content
