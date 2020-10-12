@@ -17,7 +17,6 @@ import SwiftUI
         }
         
         // MARK: Internal
-
         var sgObject: SGObject
 
         func body(content: Content) -> some View {

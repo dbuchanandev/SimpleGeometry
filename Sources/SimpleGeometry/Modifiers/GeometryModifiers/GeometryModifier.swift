@@ -19,7 +19,7 @@ struct GeometryModifier: ViewModifier {
         _ behavior: FrameBehavior = .default,
         _ coordinateSpace: CoordinateSpace = .global
     ) {
-        _sgObject = .init(wrappedValue: .init(to: to, behavior: behavior, coordinateSpace: coordinateSpace))
+        _sgObject = StateObject(wrappedValue: SGObject.init(to: to, behavior: behavior, coordinateSpace: coordinateSpace))
     }
 
     // MARK: Internal
