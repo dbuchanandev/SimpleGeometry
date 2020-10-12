@@ -19,12 +19,13 @@ struct GeometryModifier: ViewModifier {
         _ behavior: FrameBehavior = .default,
         _ coordinateSpace: CoordinateSpace = .global
     ) {
-        self.sgObject = SGObject(to: to, behavior: behavior, coordinateSpace: coordinateSpace)
+        _sgObject = .init(wrappedValue: .init(to: to, behavior: behavior, coordinateSpace: coordinateSpace))
     }
 
     // MARK: Internal
 
-    var sgObject: SGObject
+    @StateObject
+    private var sgObject: SGObject
 
     func body(content: Content) -> some View {
         content

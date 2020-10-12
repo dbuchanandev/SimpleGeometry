@@ -28,7 +28,7 @@ public class SGObject: ObservableObject, Identifiable, Equatable {
     ///   Defaults to a value of `.default` if no value is supplied.
     ///   - id: Any `Hashable` value used to ensure this object will be unique and conform
     ///   to the `Identifiable` protocol. Defaults to a value of `UUID()` if no value is supplied.
-    init(
+    private init(
         to: CGRect = .zero,
         _ coordinateSpace: CoordinateSpace = .global,
         _ behavior: FrameBehavior = .default,

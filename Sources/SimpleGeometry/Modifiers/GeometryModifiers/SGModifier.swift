@@ -1,5 +1,5 @@
 //
-//  GeometryModifierWithID.swift
+//  SGModifier.swift
 //
 //
 //  Created by Donavon Buchanan on 10/6/20.

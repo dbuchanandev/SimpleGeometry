@@ -6,7 +6,7 @@ import PackageDescription
 let package = Package(
     name: "SimpleGeometry",
     platforms: [
-        .macOS("10.15.99"),
+        .macOS("10.16"),
         .iOS("14.0"),
         .tvOS("14.0"),
         .watchOS("7.0")
