@@ -10,6 +10,7 @@ import SwiftUI
 struct FilledFrameModifier: ViewModifier {
     let behavior: FrameBehavior
     let rect: CGRect
+    let alignment: Alignment?
 
     @ViewBuilder
     func body(content: Content) -> some View {
@@ -22,7 +23,8 @@ struct FilledFrameModifier: ViewModifier {
                     maxWidth: behavior == .fill ? .infinity : rect.width,
                     minHeight: 0,
                     idealHeight: 0,
-                    maxHeight: behavior == .fill ? .infinity : rect.height
+                    maxHeight: behavior == .fill ? .infinity : rect.height,
+                    alignment: alignment ?? .center
                 )
         default:
             content

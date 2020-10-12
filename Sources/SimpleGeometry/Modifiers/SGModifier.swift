@@ -41,7 +41,8 @@ struct SGModifier: ViewModifier {
             .modifier(
                 FilledFrameModifier(
                     behavior: sgObject.behavior,
-                    rect: sgObject.rect
+                    rect: sgObject.rect,
+                    alignment: sgObject.alignment
                 )
             )
     }
