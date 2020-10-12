@@ -48,9 +48,8 @@ struct SGModifier: ViewModifier {
     }
     
     func dispatch(_ action: ()) {
-//        DispatchQueue(label: "PreferenceKeysQueue").async {
-//            action
-//        }
-        action
+        DispatchQueue(label: "PreferenceKeysQueue").async {
+            action
+        }
     }
 }
