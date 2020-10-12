@@ -7,8 +7,6 @@
 
 import SwiftUI
 
-#if !os(macOS)
-    @available(iOS 14.0, macCatalyst 14.0, tvOS 14.0, watchOS 7.0, *)
     struct SGModifier: ViewModifier {
         // MARK: Lifecycle
 
@@ -51,4 +49,3 @@ import SwiftUI
             }
         }
     }
-#endif

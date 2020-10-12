@@ -8,6 +8,5 @@
 import SwiftUI
 
 @available(*, deprecated, renamed: "SGObject")
-@available(iOS 14.0, macOS 11.0, macCatalyst 14.0, tvOS 14.0, watchOS 7.0, *)
 public class IdentifiableRect {
 }

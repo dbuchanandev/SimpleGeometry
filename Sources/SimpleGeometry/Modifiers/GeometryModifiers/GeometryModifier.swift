@@ -11,7 +11,6 @@ public enum FrameBehavior {
     case `default`, fill
 }
 
-@available(iOS 14.0, macOS 11.0, macCatalyst 14.0, tvOS 14.0, watchOS 7.0, *)
 struct GeometryModifier: ViewModifier {
     // MARK: Lifecycle
 
