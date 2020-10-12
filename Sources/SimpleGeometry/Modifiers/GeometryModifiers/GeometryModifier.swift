@@ -16,21 +16,20 @@ struct GeometryModifier: ViewModifier {
     // MARK: Lifecycle
 
     init(
+        to: Binding<CGRect>,
         _ behavior: FrameBehavior = .default,
         _ coordinateSpace: CoordinateSpace = .global
     ) {
-        sGObject.behavior = behavior
-        sGObject.coordinateSpace = coordinateSpace
+        self.sgObject = SGObject(to: to, behavior: behavior, coordinateSpace: coordinateSpace)
     }
 
     // MARK: Internal
 
-    @StateObject
-    private var sGObject: SGObject = .init()
+    var sgObject: SGObject
 
     func body(content: Content) -> some View {
         content
-            .modifier(GeometryModifierBackground(sGObject))
+            .modifier(SGModifier(sgObject))
     }
 
     func dispatch(_ action: ()) {

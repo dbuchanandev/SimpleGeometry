@@ -19,7 +19,7 @@
             #if !os(macOS)
                 items.append(
                     LibraryItem(
-                        base.readFrame(to: identifiableRect),
+                        base.readFrame(to: sgObject),
                         visible: true,
                         title: "Read Frame",
                         category: .layout
@@ -29,7 +29,8 @@
             items.append(
                 LibraryItem(
                     base.readFrameToRect(
-                        behavior,
+                        to: $rect,
+                        behavior: behavior,
                         in: coordinateSpace
                     ),
                     visible: true,
@@ -42,7 +43,7 @@
 
         // MARK: Internal
 
-        var identifiableRect = SGObject()
+        var sgObject = SGObject()
 
         @Binding
         var size: CGSize
@@ -50,7 +51,8 @@
         let behavior: FrameBehavior
 
         @Binding
-        var frameRect: CGRect
+        var rect: CGRect
+
         let coordinateSpace: CoordinateSpace
     }
 #endif
