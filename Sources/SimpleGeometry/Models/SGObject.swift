@@ -42,7 +42,7 @@ public class SGObject: ObservableObject, Identifiable, Equatable {
 
     // With Alignment
     public convenience init(
-        alignment: Alignment?
+        alignment: Alignment? = nil
     ) {
         self.init(
             alignment
