@@ -49,20 +49,20 @@ public class SGObject: ObservableObject, Identifiable, Equatable {
         )
     }
 
-    public convenience init(
-        behavior: FrameBehavior
-    ) {
-        self.init(
-            nil,
-            behavior,
-            .global,
-            UUID()
-        )
-    }
+//    public convenience init(
+//        behavior: FrameBehavior
+//    ) {
+//        self.init(
+//            nil,
+//            behavior,
+//            .global,
+//            UUID()
+//        )
+//    }
 
     // With Alignment
     public convenience init(
-        alignment: Alignment?,
+        alignment: Alignment? = nil,
         behavior: FrameBehavior
     ) {
         self.init(
