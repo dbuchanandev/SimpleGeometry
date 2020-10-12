@@ -18,7 +18,7 @@
             #if !os(macOS)
                 items.append(
                     LibraryItem(
-                        base.readFrame(to: $sgObject),
+                        base.readFrame(to: sgObject),
                         visible: true,
                         title: "Read Frame",
                         category: .layout

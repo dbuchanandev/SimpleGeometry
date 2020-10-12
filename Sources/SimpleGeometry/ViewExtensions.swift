@@ -90,7 +90,7 @@ extension View {
         /// the `frameRect` property of the `IdentifiableRect` object.
 
         public func readFrame(
-            to sgObject: Binding<SGObject>
+            to sgObject: SGObject
         ) -> some View {
             self
                 .modifier(SGModifier(to: sgObject))

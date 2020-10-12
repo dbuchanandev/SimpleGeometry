@@ -56,6 +56,13 @@ public class SGObject: ObservableObject, Identifiable, Equatable {
     ) {
         self.init(coordinateSpace, behavior, UUID())
     }
+    public convenience init(
+        to: CGRect,
+        behavior: FrameBehavior,
+        coordinateSpace: CoordinateSpace
+    ) {
+        self.init(to: to, coordinateSpace, behavior, UUID())
+    }
 
     public convenience init(
         behavior: FrameBehavior,

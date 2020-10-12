@@ -19,25 +19,19 @@ struct SGModifier: ViewModifier {
         _ behavior: FrameBehavior = .default,
         _ coordinateSpace: CoordinateSpace = .global
     ) {
-        _rect = rect
-        self.behavior = behavior
-        self.coordinateSpace = coordinateSpace
+        let sgObject = SGObject(to: rect.wrappedValue, behavior: behavior, coordinateSpace: coordinateSpace)
+        _sgObject = StateObject(wrappedValue: sgObject)
     }
     
     init(
-        to sgObject: Binding<SGObject>
+        to sgObject: SGObject
     ) {
-        _rect = sgObject.rect
-        behavior = sgObject.behavior.wrappedValue
-        coordinateSpace = sgObject.coordinateSpace.wrappedValue
+        _sgObject = StateObject(wrappedValue: sgObject)
     }
     
     // MARK: Internal
-    @Binding
-    var rect: CGRect
-    
-    var behavior: FrameBehavior
-    var coordinateSpace: CoordinateSpace
+    @StateObject
+    private var sgObject: SGObject
 
     func body(content: Content) -> some View {
         content
@@ -46,18 +40,18 @@ struct SGModifier: ViewModifier {
                     Color.clear
                         .preference(
                             key: FrameRectPreferenceKey.self,
-                            value: geometry.frame(in: coordinateSpace)
+                            value: geometry.frame(in: sgObject.coordinateSpace)
                         )
                         .onPreferenceChange(FrameRectPreferenceKey.self) { value in
-                            dispatch(rect = value)
+                            dispatch(sgObject.rect = value)
                         }
                         .allowsHitTesting(false)
                 }
             )
             .modifier(
                 FilledFrameModifier(
-                    behavior: behavior,
-                    rect: rect
+                    behavior: sgObject.behavior,
+                    rect: sgObject.rect
                 )
             )
     }
