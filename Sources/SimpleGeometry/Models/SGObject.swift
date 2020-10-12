@@ -42,7 +42,7 @@ public class SGObject: ObservableObject, Identifiable, Equatable {
 
     // With Alignment
     public convenience init(
-        alignment: Alignment? = nil
+        alignment: Alignment?
     ) {
         self.init(
             alignment
@@ -62,7 +62,7 @@ public class SGObject: ObservableObject, Identifiable, Equatable {
 
     // With Alignment
     public convenience init(
-        alignment: Alignment? = nil,
+        alignment: Alignment?,
         behavior: FrameBehavior
     ) {
         self.init(
@@ -87,7 +87,7 @@ public class SGObject: ObservableObject, Identifiable, Equatable {
 
     // With Alignment
     public convenience init(
-        alignment: Alignment? = nil,
+        alignment: Alignment?,
         behavior: FrameBehavior,
         coordinateSpace: CoordinateSpace
     ) {
@@ -114,7 +114,7 @@ public class SGObject: ObservableObject, Identifiable, Equatable {
 
     // With Alignment
     public convenience init(
-        alignment: Alignment? = nil,
+        alignment: Alignment?,
         behavior: FrameBehavior,
         coordinateSpace: CoordinateSpace,
         id: AnyHashable
