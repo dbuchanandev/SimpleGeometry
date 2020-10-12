@@ -54,4 +54,3 @@ struct SGModifier: ViewModifier {
         action
     }
 }
-#imageLiteral(resourceName: "simulator_screenshot_945AEC30-8D0A-4465-80E8-2916AD36CF89.png")
