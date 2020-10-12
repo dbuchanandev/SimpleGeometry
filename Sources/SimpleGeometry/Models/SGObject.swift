@@ -7,12 +7,11 @@
 
 import SwiftUI
 
-@available(*, deprecated, renamed: "SGObject")
 @available(iOS 14.0, macOS 11.0, macCatalyst 14.0, tvOS 14.0, watchOS 7.0, *)
-public class IdentifiableRect: ObservableObject, Identifiable, Equatable {
+public class SGObject: ObservableObject, Identifiable, Equatable {
     // MARK: Lifecycle
 
-    /// Creates a new IdentifiableRect object.
+    /// Creates a new SGObject object.
     /// This class is intended to package together properties needed to read the
     /// geometry of a view, and to hold the `CGRect` where the geometry properties
     /// are stored. Default values are provided for all parameters and will be all that's needed
@@ -24,59 +23,57 @@ public class IdentifiableRect: ObservableObject, Identifiable, Equatable {
     ///   returning X and Y positional values relative to the view with `.local`, the
     ///   screen with `.global`, or a named area with `.named()`.
     ///   Defaults to a value of `.global` if no value is supplied.
-    ///   - frameBehavior: A `FrameBehavior` enum case value to indicate
+    ///   - behavior: A `FrameBehavior` enum case value to indicate
     ///   if the view returned from the modifier should retain the default sizing behavior
     ///   as if unmodified using `.default`, or grow to fill the available space using `.fill`.
     ///   Defaults to a value of `.default` if no value is supplied.
     ///   - id: Any `Hashable` value used to ensure this object will be unique and conform
     ///   to the `Identifiable` protocol. Defaults to a value of `UUID()` if no value is supplied.
     public init(
-        _ frameRect: CGRect = .zero,
         _ coordinateSpace: CoordinateSpace = .global,
-        _ frameBehavior: FrameBehavior = .default,
+        _ behavior: FrameBehavior = .default,
         _ id: AnyHashable = UUID()
     ) {
-        self.frameRect = frameRect
-        self.frameBehavior = frameBehavior
+        self.behavior = behavior
         self.coordinateSpace = coordinateSpace
         self.id = id
     }
 
     public convenience init() {
-        self.init(.zero, .global, .default, UUID())
+        self.init(.global, .default, UUID())
     }
 
     public convenience init(
-        frameBehavior: FrameBehavior
+        behavior: FrameBehavior
     ) {
-        self.init(.zero, .global, frameBehavior, UUID())
+        self.init(.global, behavior, UUID())
     }
 
     public convenience init(
-        frameBehavior: FrameBehavior,
+        behavior: FrameBehavior,
         coordinateSpace: CoordinateSpace
     ) {
-        self.init(.zero, coordinateSpace, frameBehavior, UUID())
+        self.init(coordinateSpace, behavior, UUID())
     }
 
     public convenience init(
-        frameBehavior: FrameBehavior,
+        behavior: FrameBehavior,
         coordinateSpace: CoordinateSpace,
         id: AnyHashable
     ) {
-        self.init(.zero, coordinateSpace, frameBehavior, id)
+        self.init(coordinateSpace, behavior, id)
     }
 
     // MARK: Public
 
     @Published public var id: AnyHashable
 
-    @Published public var frameRect: CGRect
-    @Published public var frameBehavior: FrameBehavior
+    @Published public var rect: CGRect = .zero
+    @Published public var behavior: FrameBehavior
     @Published public var coordinateSpace: CoordinateSpace
 
-    public static func == (lhs: IdentifiableRect, rhs: IdentifiableRect) -> Bool {
-        return lhs.id == rhs.id && lhs.frameRect == rhs.frameRect
-            && lhs.frameBehavior == rhs.frameBehavior && lhs.coordinateSpace == rhs.coordinateSpace
+    public static func == (lhs: SGObject, rhs: SGObject) -> Bool {
+        return lhs.id == rhs.id && lhs.rect == rhs.rect
+            && lhs.behavior == rhs.behavior && lhs.coordinateSpace == rhs.coordinateSpace
     }
 }

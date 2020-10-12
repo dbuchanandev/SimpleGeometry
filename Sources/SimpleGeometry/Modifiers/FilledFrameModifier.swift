@@ -1,6 +1,6 @@
 //
 //  FilledFrameModifier.swift
-//  
+//
 //
 //  Created by Donavon Buchanan on 10/6/20.
 //
@@ -9,22 +9,21 @@ import SwiftUI
 
 @available(iOS 14.0, macOS 11.0, macCatalyst 14.0, tvOS 14.0, watchOS 7.0, *)
 struct FilledFrameModifier: ViewModifier {
-    
-    let frameBehavior: FrameBehavior
-    let frameRect: CGRect
-    
+    let behavior: FrameBehavior
+    let rect: CGRect
+
     @ViewBuilder
     func body(content: Content) -> some View {
-        switch frameBehavior {
+        switch behavior {
         case .fill:
             content
                 .frame(
-                    minWidth: 0, 
-                    idealWidth: 0, 
-                    maxWidth: frameBehavior == .fill ? .infinity : frameRect.width, 
-                    minHeight: 0, 
-                    idealHeight: 0, 
-                    maxHeight: frameBehavior == .fill ? .infinity : frameRect.height
+                    minWidth: 0,
+                    idealWidth: 0,
+                    maxWidth: behavior == .fill ? .infinity : rect.width,
+                    minHeight: 0,
+                    idealHeight: 0,
+                    maxHeight: behavior == .fill ? .infinity : rect.height
                 )
         default:
             content

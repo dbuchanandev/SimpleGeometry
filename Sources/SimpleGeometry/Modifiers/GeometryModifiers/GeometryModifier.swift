@@ -1,6 +1,6 @@
 //
 //  GeometryModifier.swift
-//  
+//
 //
 //  Created by Donavon Buchanan on 10/6/20.
 //
@@ -13,31 +13,26 @@ public enum FrameBehavior {
 
 @available(iOS 14.0, macOS 11.0, macCatalyst 14.0, tvOS 14.0, watchOS 7.0, *)
 struct GeometryModifier: ViewModifier {
-    let frameBehavior: FrameBehavior
-    
-    @Binding
-    var frameRect: CGRect
-    let coordinateSpace: CoordinateSpace
-    
-    //MARK: - Rect Init
+    // MARK: Lifecycle
+
     init(
-        _ frameRect: Binding<CGRect>,
-        _ coordinateSpace: CoordinateSpace = .global,
-        _ frameBehavior: FrameBehavior = .default
-    )
-    {
-        _frameRect = frameRect
-        self.frameBehavior = frameBehavior
-        self.coordinateSpace = coordinateSpace
+        _ behavior: FrameBehavior = .default,
+        _ coordinateSpace: CoordinateSpace = .global
+    ) {
+        sGObject.behavior = behavior
+        sGObject.coordinateSpace = coordinateSpace
     }
-    
+
+    // MARK: Internal
+
+    @StateObject
+    private var sGObject: SGObject = .init()
+
     func body(content: Content) -> some View {
-        
         content
-            .modifier(GeometryModifierBackground($frameRect, coordinateSpace, frameBehavior))
-            
+            .modifier(GeometryModifierBackground(sGObject))
     }
-    
+
     func dispatch(_ action: ()) {
         DispatchQueue(label: "PreferenceKeysQueue").async {
             action

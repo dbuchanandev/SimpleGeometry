@@ -1,6 +1,5 @@
-import XCTest
-
 import SimpleGeometryTests
+import XCTest
 
 var tests = [XCTestCaseEntry]()
 tests += SimpleGeometryTests.allTests()
