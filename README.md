@@ -12,7 +12,66 @@ your project.
 Building for macOS requires macOS 11.0 or newer and Xcode 12.2 or newer.
 
 ## Usage
-### Reading the size of a View
+### Measuring a View's size without Geometry Reader
+```swift
+import SwiftUI
+import SimpleGeometry
+
+struct ExampleSwiftUIView: View {
+
+    /*
+    Create a @State variable of type CGRect to hold the
+    size properties needed for the .measure(to:) modifier.
+    */
+    @State
+    private var rect: CGRect = .zero
+    
+    var body: some View {
+    
+        VStack {
+            Text("Measured Width: \(rect.width)")
+            Text("Measured Height: \(rect.height)")
+        }
+        .font(.system(.body, design: .monospaced))
+        /*
+         Blue border for illustration.
+         This is the bounds of the View being read.
+        */
+        .border(Color.blue, width: 2)
+        // Measure the size of this VStack
+        .measure(to: $rect)
+    }
+}
+```
+
+### Measuring a View's containing View size without Geometry Reader
+```swift
+import SwiftUI
+import SimpleGeometry
+
+struct ExampleSwiftUIView: View {
+
+    /*
+    Create a @State variable of type CGRect to hold the
+    size properties needed for the .measure(to:) modifier.
+    */
+    @State
+    private var rect: CGRect = .zero
+    
+    var body: some View {
+    
+        VStack {
+            Text("Container Width: \(rect.width)")
+            Text("Container Height: \(rect.height)")
+        }
+        .font(.system(.body, design: .monospaced))
+        // Measure size of the View containing this VStack
+        .measureContainingView(to: $rect)
+    }
+}
+```
+
+### Reading the geometry of a View
 ```swift
 import SwiftUI
 import SimpleGeometry
@@ -52,14 +111,13 @@ struct ExampleSwiftUIView: View {
         .font(.system(.body, design: .monospaced))
         // Blue border for illustration. This is the size being read.
         .border(Color.blue, width: 2)
-        // Read size for contents of the VStack, filling the view
+        // Read size for contents of the VStack
         .readSize(to: viewSize)
     }
-    
 }
 ```
 
-### Reading the size of a View's containing View
+### Reading the geometry of a View's containing View
 ```swift
 import SwiftUI
 import SimpleGeometry
@@ -100,7 +158,6 @@ struct ExampleSwiftUIView: View {
         .font(.system(.body, design: .monospaced))
         .readParentSize(to: parentSize)
     }
-
 }
 ```
 

@@ -15,8 +15,8 @@ extension View {
     /// view are altered.
     ///
     /// In the example below, the `.readSize` modifier returns a visually unaltered
-    /// view and updates the values of the `rect` property of `viewSize` 
-    /// to match the size and position of the contents of the outermost`VStack`. 
+    /// view and updates the values of the `rect` property of `viewSize`
+    /// to match the size and position of the contents of the outermost`VStack`.
     /// These values are then displayed by the `Text` views.
     ///
     ///     /*
@@ -27,7 +27,7 @@ extension View {
     ///     private var viewSize = SGObject()
     ///
     ///     var body: some View {
-    ///     
+    ///
     ///         VStack(alignment: .leading, spacing: 20) {
     ///             // X Axis
     ///             VStack(alignment: .leading) {
@@ -76,21 +76,21 @@ extension View {
         self
             .modifier(SGModifier(to: sgObject))
     }
-    
+
     @available(*, deprecated, renamed: "readSize")
     public func readFrame(to sgObject: SGObject) -> some View {
         self
     }
-    
+
     // MARK: - Read Parent Size
-    
+
     /// Reads the properties of the modified view into an `SGObject` object.
     /// This object is updated any time the geometric properties of the modified
     /// view are altered.
     ///
     /// In the example below, the `.readParentSize` modifier returns a visually unaltered
-    /// view and updates the values of the `rect` property of `parentSize` 
-    /// to match the size and position of the contents of the outermost`VStack`. 
+    /// view and updates the values of the `rect` property of `parentSize`
+    /// to match the size and position of the contents of the outermost`VStack`.
     /// These values are then displayed by the `Text` views.
     ///
     ///     /*
@@ -101,9 +101,9 @@ extension View {
     ///     private var parentSize = SGObject()
     ///
     ///     var body: some View {
-    ///     
+    ///
     ///         VStack(alignment: .leading, spacing: 20) {
-    ///         
+    ///
     ///             // X Axis
     ///             VStack(alignment: .leading) {
     ///                 Text("minX: \(parentSize.rect.minX)")
@@ -123,7 +123,7 @@ extension View {
     ///                 Text("Contents Width: \(parentSize.rect.width)")
     ///                 Text("Contents Height: \(parentSize.rect.height)")
     ///             }
-    ///             
+    ///
     ///         }
     ///         .font(.system(.body, design: .monospaced))
     ///         .readParentSize(to: parentSize)
@@ -142,9 +142,31 @@ extension View {
         self
             .modifier(SGContainerModifier(to: sgObject))
     }
-    
+
     @available(*, deprecated, renamed: "readParentSize")
     public func readContainer(to sgObject: SGObject) -> some View {
         self
+    }
+
+    // MARK: - Without Geometry Reader
+
+    /// Measures the width and height values of the modified View.
+    /// - Parameter rect: `CGRect` to store size values. Does not currently support
+    /// coordinate spaces other than local.
+    /// - Returns: Returns a modified `View`,
+    /// passing the size of that view to the `rect` Parameter.
+    public func measure(to rect: Binding<CGRect>) -> some View {
+        self
+            .modifier(MeasureViewModifier(rect: rect))
+    }
+
+    /// Measures the width and height values of the modified View's containing View.
+    /// - Parameter rect: `CGRect` to store size values. Does not currently support
+    /// coordinate spaces other than local.
+    /// - Returns: Returns a modified `View`,
+    /// passing the size of that view to the `rect` Parameter.
+    public func measureContainingView(to rect: Binding<CGRect>) -> some View {
+        self
+            .modifier(MeasureContainingViewModifier(rect: rect))
     }
 }
