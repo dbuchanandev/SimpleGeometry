@@ -78,7 +78,7 @@ extension View {
     }
     
     @available(*, deprecated, renamed: "readSize")
-    public func readFrame(){}
+    public func readFrame(to sgObject: SGObject){}
     
     // MARK: - Read Parent Size
     
@@ -140,4 +140,7 @@ extension View {
         self
             .modifier(SGContainerModifier(to: sgObject))
     }
+    
+    @available(*, deprecated, renamed: "readParentSize")
+    public func readContainer(to sgObject: SGObject){}
 }
