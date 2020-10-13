@@ -18,11 +18,7 @@ struct FilledFrameModifier: ViewModifier {
         case .fill:
             content
                 .frame(
-                    minWidth: .none,
-                    idealWidth: .none,
                     maxWidth: behavior == .fill ? .infinity : .none,
-                    minHeight: .none,
-                    idealHeight: .none,
                     maxHeight: behavior == .fill ? .infinity : .none,
                     alignment: alignment ?? .center
                 )
