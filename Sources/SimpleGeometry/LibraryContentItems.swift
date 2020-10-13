@@ -18,7 +18,7 @@
             
             items.append(
                 LibraryItem(
-                    base.readFrame(to: sgObject),
+                    base.readSize(to: sgObject),
                     visible: true,
                     title: "Read Frame",
                     category: .layout
@@ -27,9 +27,9 @@
             
             items.append(
                 LibraryItem(
-                    base.readContainer(to: sgObject),
+                    base.readParentSize(to: sgObject),
                     visible: true,
-                    title: "Read Container",
+                    title: "Read Parent Frame",
                     category: .layout
                 )
             )

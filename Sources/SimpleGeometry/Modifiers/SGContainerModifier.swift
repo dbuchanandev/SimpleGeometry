@@ -24,7 +24,7 @@ struct SGContainerModifier: ViewModifier {
             Rectangle()
                 .foregroundColor(.clear)
                 .allowsHitTesting(false)
-                .readFrame(to: sgObject)
+                .readSize(to: sgObject)
             
             content
         }
