@@ -25,6 +25,15 @@
                 )
             )
             
+            items.append(
+                LibraryItem(
+                    base.readContainer(to: sgObject),
+                    visible: true,
+                    title: "Read Container",
+                    category: .layout
+                )
+            )
+            
             return items
         }
 

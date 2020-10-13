@@ -94,4 +94,11 @@ extension View {
         self
             .modifier(SGModifier(to: sgObject))
     }
+    
+    public func readContainer(
+        to sgObject: SGObject
+    ) -> some View {
+        self
+            .modifier(SGContainerModifier(to: sgObject))
+    }
 }
