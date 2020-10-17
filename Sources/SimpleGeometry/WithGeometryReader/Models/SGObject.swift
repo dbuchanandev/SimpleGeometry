@@ -16,8 +16,7 @@ public class SGObject: ObservableObject, Identifiable, Equatable {
     /// are stored. Default values are provided for all parameters and will be all that's needed
     /// for typical use cases.
     /// - Parameters:
-    ///   - frameRect: `CGRect` value where geometry properties are stored.
-    ///   Defaults to a value of `.zero` if no value is supplied. In most cases, this default should be used.
+    ///   - rect: `CGRect` value where geometry properties are stored.
     ///   - coordinateSpace: Indicates the CoordinateSpace of the frame,
     ///   returning X and Y positional values relative to the view with `.local`, the
     ///   screen with `.global`, or a named area with `.named()`.
@@ -95,9 +94,49 @@ public class SGObject: ObservableObject, Identifiable, Equatable {
     @Published public var behavior: FrameBehavior
     @Published public var coordinateSpace: CoordinateSpace
     @Published public var rect: CGRect = .zero
+    @Published public var size: CGSize = .zero
+    
+    public var width: CGFloat {
+        return size.width
+    }
+    
+    public var height: CGFloat {
+        return size.height
+    }
+    
+    public var origin: CGPoint {
+        return rect.origin
+    }
+    
+    public var minX: CGFloat {
+        return rect.minX
+    }
+    
+    public var midX: CGFloat {
+        return rect.midX
+    }
+    
+    public var maxX: CGFloat {
+        return rect.maxX
+    }
+    
+    public var minY: CGFloat {
+        return rect.minY
+    }
+    
+    public var midY: CGFloat {
+        return rect.midY
+    }
+    
+    public var maxY: CGFloat {
+        return rect.maxY
+    }
 
     public static func == (lhs: SGObject, rhs: SGObject) -> Bool {
-        return lhs.id == rhs.id && lhs.rect == rhs.rect
-            && lhs.behavior == rhs.behavior && lhs.coordinateSpace == rhs.coordinateSpace
+        return lhs.id == rhs.id
+            && lhs.rect == rhs.rect
+            && lhs.behavior == rhs.behavior
+            && lhs.coordinateSpace == rhs.coordinateSpace
+            && lhs.size == rhs.size
     }
 }

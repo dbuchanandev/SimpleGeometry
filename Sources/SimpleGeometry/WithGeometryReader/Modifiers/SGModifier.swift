@@ -32,8 +32,19 @@ struct SGModifier: ViewModifier {
                             key: FrameRectPreferenceKey.self,
                             value: geometry.frame(in: sgObject.coordinateSpace)
                         )
+                        .preference(
+                            key: SizePreferenceKey.self,
+                            value: geometry.size
+                        )
                         .onPreferenceChange(FrameRectPreferenceKey.self) { value in
-                            dispatch(sgObject.rect = value)
+                            dispatch(
+                                sgObject.rect = value
+                            )
+                        }
+                        .onPreferenceChange(SizePreferenceKey.self) { value in
+                            dispatch(
+                                sgObject.size = value
+                            )
                         }
                         .allowsHitTesting(false)
                 }

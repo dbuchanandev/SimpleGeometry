@@ -155,9 +155,9 @@ extension View {
     /// coordinate spaces other than local.
     /// - Returns: Returns a modified `View`,
     /// passing the size of that view to the `rect` Parameter.
-    public func measure(to rect: Binding<CGRect>) -> some View {
+    public func measure(to size: Binding<CGSize>) -> some View {
         self
-            .modifier(MeasureViewModifier(rect: rect))
+            .modifier(MeasureViewModifier(size: size))
     }
 
     /// Measures the width and height values of the modified View's containing View.
@@ -165,8 +165,8 @@ extension View {
     /// coordinate spaces other than local.
     /// - Returns: Returns a modified `View`,
     /// passing the size of that view to the `rect` Parameter.
-    public func measureContainingView(to rect: Binding<CGRect>) -> some View {
+    public func measureContainingView(to size: Binding<CGSize>) -> some View {
         self
-            .modifier(MeasureContainingViewModifier(rect: rect))
+            .modifier(MeasureContainingViewModifier(size: size))
     }
 }

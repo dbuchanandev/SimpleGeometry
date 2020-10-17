@@ -9,7 +9,7 @@ SimpleGeometry makes the geometric properties of any view easily accessible thro
 your project.
 
 ###### Important Note:
-Building for macOS requires macOS 11.0 or newer and Xcode 12.2 or newer.
+Building for macOS requires macOS 11.0 or newer and Xcode 12.1 or newer.
 
 ## Usage
 ### Measuring a View's size without Geometry Reader

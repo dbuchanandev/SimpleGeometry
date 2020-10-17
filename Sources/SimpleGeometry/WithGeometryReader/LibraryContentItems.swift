@@ -35,7 +35,7 @@ public struct LibraryModifierContent: LibraryContentProvider {
 
         items.append(
             LibraryItem(
-                base.measure(to: $rect),
+                base.measure(to: $size),
                 visible: true,
                 title: "Measure View",
                 category: .layout
@@ -44,7 +44,7 @@ public struct LibraryModifierContent: LibraryContentProvider {
 
         items.append(
             LibraryItem(
-                base.measureContainingView(to: $rect),
+                base.measureContainingView(to: $size),
                 visible: true,
                 title: "Measure Containing View",
                 category: .layout
@@ -60,5 +60,5 @@ public struct LibraryModifierContent: LibraryContentProvider {
     var sgObject: SGObject
 
     @Binding
-    var rect: CGRect
+    var size: CGSize
 }
