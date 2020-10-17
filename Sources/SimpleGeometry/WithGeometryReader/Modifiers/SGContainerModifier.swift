@@ -20,13 +20,10 @@ struct SGContainerModifier: ViewModifier {
     private var sgObject: SGObject
     
     func body(content: Content) -> some View {
-        ZStack {
-            Rectangle()
-                .foregroundColor(.clear)
-                .allowsHitTesting(false)
-                .readSize(to: sgObject)
-            
-            content
-        }
+        Rectangle()
+            .foregroundColor(.clear)
+            .allowsHitTesting(false)
+            .readSize(to: sgObject)
+            .overlay(content)
     }
 }

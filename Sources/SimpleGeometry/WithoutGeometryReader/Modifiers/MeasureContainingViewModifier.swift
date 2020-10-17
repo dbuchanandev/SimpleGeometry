@@ -12,10 +12,7 @@ struct MeasureContainingViewModifier: ViewModifier {
     var size: CGSize
 
     func body(content: Content) -> some View {
-        ZStack {
-            MeasuringView(size: $size)
-
-            content
-        }
+        MeasuringView(size: $size)
+            .overlay(content)
     }
 }
