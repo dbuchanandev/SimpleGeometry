@@ -18,7 +18,7 @@ struct SGModifier: ViewModifier {
     ) {
         _sgObject = StateObject(wrappedValue: sgObject)
     }
-    
+
     // MARK: Internal
     @StateObject
     private var sgObject: SGObject
@@ -52,12 +52,11 @@ struct SGModifier: ViewModifier {
             .modifier(
                 FilledFrameModifier(
                     behavior: sgObject.behavior,
-                    rect: sgObject.rect,
                     alignment: sgObject.alignment
                 )
             )
     }
-    
+
     func dispatch(_ action: ()) {
         DispatchQueue(label: "PreferenceKeysQueue").async {
             action

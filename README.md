@@ -5,8 +5,8 @@ SimpleGeometry provides a quick and easy way to get all the information provided
 SwiftUI's Geometry Reader with a simple modifier and no impact on the size of your view
 by default.
 
-SimpleGeometry makes the geometric properties of any view easily accessible throughout
-your project.
+SimpleGeometry makes the geometric properties, such as size and position,
+of any view more easily accessible.
 
 ###### Important Note:
 Building for macOS requires macOS 11.0 or newer and Xcode 12.1 or newer.
@@ -20,17 +20,17 @@ import SimpleGeometry
 struct ExampleSwiftUIView: View {
 
     /*
-    Create a @State variable of type CGRect to hold the
+    Create a @State variable of type `CGSize` to hold the
     size properties needed for the .measure(to:) modifier.
     */
     @State
-    private var rect: CGRect = .zero
+    private var size = CGSize()
     
     var body: some View {
     
         VStack {
-            Text("Measured Width: \(rect.width)")
-            Text("Measured Height: \(rect.height)")
+            Text("Measured Width: \(size.width)")
+            Text("Measured Height: \(size.height)")
         }
         .font(.system(.body, design: .monospaced))
         /*
@@ -39,7 +39,7 @@ struct ExampleSwiftUIView: View {
         */
         .border(Color.blue, width: 2)
         // Measure the size of this VStack
-        .measure(to: $rect)
+        .measure(to: $size)
     }
 }
 ```
@@ -52,21 +52,21 @@ import SimpleGeometry
 struct ExampleSwiftUIView: View {
 
     /*
-    Create a @State variable of type CGRect to hold the
+    Create a @State variable of type `CGSize` to hold the
     size properties needed for the .measure(to:) modifier.
     */
     @State
-    private var rect: CGRect = .zero
+    private var size = CGSize()
     
     var body: some View {
     
         VStack {
-            Text("Container Width: \(rect.width)")
-            Text("Container Height: \(rect.height)")
+            Text("Container Width: \(size.width)")
+            Text("Container Height: \(size.height)")
         }
         .font(.system(.body, design: .monospaced))
         // Measure size of the View containing this VStack
-        .measureContainingView(to: $rect)
+        .measureContainingView(to: $size)
     }
 }
 ```
@@ -83,29 +83,29 @@ struct ExampleSwiftUIView: View {
     properties needed for the .readSize modifier.
     */
     @StateObject
-    private var ViewSize = SGObject()
+    private var viewSize = SGObject()
     
     var body: some View {
     
         VStack(alignment: .leading, spacing: 20) {
             // X Axis
             VStack(alignment: .leading) {
-                Text("minX: \(viewSize.rect.minX)")
-                Text("midX: \(viewSize.rect.midX)")
-                Text("maxX: \(viewSize.rect.maxX)")
+                Text("minX: \(viewSize.minX)")
+                Text("midX: \(viewSize.midX)")
+                Text("maxX: \(viewSize.maxX)")
             }
             
             // Y Axis
             VStack(alignment: .leading) {
-                Text("minY: \(viewSize.rect.minY)")
-                Text("midY: \(viewSize.rect.midY)")
-                Text("maxY: \(viewSize.rect.maxY)")
+                Text("minY: \(viewSize.minY)")
+                Text("midY: \(viewSize.midY)")
+                Text("maxY: \(viewSize.maxY)")
             }
             
             // View Size
             VStack(alignment: .leading) {
-                Text("Contents Width: \(viewSize.rect.width)")
-                Text("Contents Height: \(viewSize.rect.height)")
+                Text("Contents Width: \(viewSize.width)")
+                Text("Contents Height: \(viewSize.height)")
             }
         }
         .font(.system(.body, design: .monospaced))
@@ -136,22 +136,22 @@ struct ExampleSwiftUIView: View {
         VStack(alignment: .leading, spacing: 20) {
             // X Axis
             VStack(alignment: .leading) {
-                Text("minX: \(parentSize.rect.minX)")
-                Text("midX: \(parentSize.rect.midX)")
-                Text("maxX: \(parentSize.rect.maxX)")
+                Text("minX: \(parentSize.minX)")
+                Text("midX: \(parentSize.midX)")
+                Text("maxX: \(parentSize.maxX)")
             }
 
             // Y Axis
             VStack(alignment: .leading) {
-                Text("minY: \(parentSize.rect.minY)")
-                Text("midY: \(parentSize.rect.midY)")
-                Text("maxY: \(parentSize.rect.maxY)")
+                Text("minY: \(parentSize.minY)")
+                Text("midY: \(parentSize.midY)")
+                Text("maxY: \(parentSize.maxY)")
             }
 
             // Containing View Size
             VStack(alignment: .leading) {
-                Text("Contents Width: \(parentSize.rect.width)")
-                Text("Contents Height: \(parentSize.rect.height)")
+                Text("Contents Width: \(parentSize.width)")
+                Text("Contents Height: \(parentSize.height)")
             }
 
         }

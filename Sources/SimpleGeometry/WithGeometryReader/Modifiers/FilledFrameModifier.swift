@@ -9,7 +9,6 @@ import SwiftUI
 
 struct FilledFrameModifier: ViewModifier {
     let behavior: FrameBehavior
-    let rect: CGRect
     let alignment: Alignment?
 
     @ViewBuilder
