@@ -18,7 +18,7 @@ struct SGModifier: ViewModifier {
     ) {
         _sgObject = StateObject(wrappedValue: sgObject)
     }
-    
+
     // MARK: Internal
     @StateObject
     private var sgObject: SGObject
@@ -32,8 +32,19 @@ struct SGModifier: ViewModifier {
                             key: FrameRectPreferenceKey.self,
                             value: geometry.frame(in: sgObject.coordinateSpace)
                         )
+                        .preference(
+                            key: SizePreferenceKey.self,
+                            value: geometry.size
+                        )
                         .onPreferenceChange(FrameRectPreferenceKey.self) { value in
-                            dispatch(sgObject.rect = value)
+                            dispatch(
+                                sgObject.rect = value
+                            )
+                        }
+                        .onPreferenceChange(SizePreferenceKey.self) { value in
+                            dispatch(
+                                sgObject.size = value
+                            )
                         }
                         .allowsHitTesting(false)
                 }
@@ -41,12 +52,11 @@ struct SGModifier: ViewModifier {
             .modifier(
                 FilledFrameModifier(
                     behavior: sgObject.behavior,
-                    rect: sgObject.rect,
                     alignment: sgObject.alignment
                 )
             )
     }
-    
+
     func dispatch(_ action: ()) {
         DispatchQueue(label: "PreferenceKeysQueue").async {
             action

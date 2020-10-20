@@ -9,12 +9,12 @@ import SwiftUI
 
 struct MeasureViewModifier: ViewModifier {
     @Binding
-    var rect: CGRect
+    var size: CGSize
 
     func body(content: Content) -> some View {
         content
             .background(
-                MeasuringView(rect: $rect)
+                MeasuringView(size: $size)
             )
     }
 }

@@ -9,13 +9,10 @@ import SwiftUI
 
 struct MeasureContainingViewModifier: ViewModifier {
     @Binding
-    var rect: CGRect
+    var size: CGSize
 
     func body(content: Content) -> some View {
-        ZStack {
-            MeasuringView(rect: $rect)
-
-            content
-        }
+        MeasuringView(size: $size)
+            .overlay(content)
     }
 }

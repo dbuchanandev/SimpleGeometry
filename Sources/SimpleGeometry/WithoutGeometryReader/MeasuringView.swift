@@ -9,10 +9,10 @@ import SwiftUI
 
 struct MeasuringView: View {
     @Binding
-    var rect: CGRect
+    var size: CGSize
 
     var body: some View {
-        MeasuringShape(rect: $rect)
+        MeasuringShape(size: $size)
             .foregroundColor(.clear)
             .allowsHitTesting(false)
     }

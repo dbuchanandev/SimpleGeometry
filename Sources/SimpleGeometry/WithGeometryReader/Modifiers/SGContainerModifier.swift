@@ -1,6 +1,6 @@
 //
 //  SGContainerModifier.swift
-//  
+//
 //
 //  Created by Donavon Buchanan on 10/13/20.
 //
@@ -14,19 +14,16 @@ struct SGContainerModifier: ViewModifier {
     ) {
         _sgObject = StateObject(wrappedValue: sgObject)
     }
-    
+
     // MARK: Internal
     @StateObject
     private var sgObject: SGObject
-    
+
     func body(content: Content) -> some View {
-        ZStack {
-            Rectangle()
-                .foregroundColor(.clear)
-                .allowsHitTesting(false)
-                .readSize(to: sgObject)
-            
-            content
-        }
+        Rectangle()
+            .foregroundColor(.clear)
+            .allowsHitTesting(false)
+            .readSize(to: sgObject)
+            .overlay(content)
     }
 }

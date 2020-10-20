@@ -9,7 +9,7 @@ import SwiftUI
 
 struct MeasuringShape: Shape {
     @Binding
-    var rect: CGRect
+    var size: CGSize
 
     func path(in rect: CGRect) -> Path {
         var path = Path()
@@ -18,7 +18,7 @@ struct MeasuringShape: Shape {
             /*
              Need to separate updating the State from updating the View
              */
-            self.rect = rect
+            self.size = rect.size
         }
         return path
     }
