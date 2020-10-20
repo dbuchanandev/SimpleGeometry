@@ -5,8 +5,8 @@ SimpleGeometry provides a quick and easy way to get all the information provided
 SwiftUI's Geometry Reader with a simple modifier and no impact on the size of your view
 by default.
 
-SimpleGeometry makes the geometric properties of any view easily accessible throughout
-your project.
+SimpleGeometry makes the geometric properties, such as size and position,
+of any view more easily accessible.
 
 ###### Important Note:
 Building for macOS requires macOS 11.0 or newer and Xcode 12.1 or newer.
@@ -24,7 +24,7 @@ struct ExampleSwiftUIView: View {
     size properties needed for the .measure(to:) modifier.
     */
     @State
-    private var size: CGRect = .zero
+    private var size = CGSize()
     
     var body: some View {
     
@@ -56,7 +56,7 @@ struct ExampleSwiftUIView: View {
     size properties needed for the .measure(to:) modifier.
     */
     @State
-    private var size: CGSize = .zero
+    private var size = CGSize()
     
     var body: some View {
     
